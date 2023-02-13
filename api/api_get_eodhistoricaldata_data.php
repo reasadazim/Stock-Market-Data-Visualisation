@@ -18,15 +18,30 @@
 
 // ********************** Get the API response and store data in CSV file **********************
 
-    $start_date_time_local = new DateTime($start_date);
-    $from = $start_date_time_local->getTimestamp();
+    if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
+        // For EOD ticker we need date as normal date format e.g. 2023-02-28
+        $from = substr($start_date, 0, -9);
+    
+        $to = substr($end_date, 0, -9);
+        
+        // Setting API URL
+        $remote_file_name = "https://eodhistoricaldata.com/api/eod/".$crypto."?api_token=63e9be52e52de8.36159257&interval=5m&from=".$from."&to=".$to."";
+        // echo $remote_file_name."<br>";
+    }else{
+        // For Intraday ticker we need date as timestamp e.g. 1564752900 (2019-08-02 13:35:00)
+        $start_date_time_local = new DateTime($start_date);
+        $from = $start_date_time_local->getTimestamp();
+    
+        $end_date_time_local = new DateTime($end_date);
+        $to = $end_date_time_local->getTimestamp();
+        
+        // Setting API URL
+        $remote_file_name = "https://eodhistoricaldata.com/api/intraday/".$crypto."?api_token=63e9be52e52de8.36159257&interval=5m&from=".$from."&to=".$to."";
+        // echo $remote_file_name."<br>";
+    }
 
-    $end_date_time_local = new DateTime($end_date);
-    $to = $end_date_time_local->getTimestamp();
 
-    // Setting API URL
-    $remote_file_name = "https://eodhistoricaldata.com/api/intraday/".$crypto."?api_token=63e9be52e52de8.36159257&interval=5m&from=".$from."&to=".$to."";
-    // echo $remote_file_name."<br>";
+
     //setting file name to save
     $local_csv_file_name = "../data/".$crypto."/".$crypto."-data.csv"; 
     

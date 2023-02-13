@@ -102,23 +102,21 @@
                     
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
-                    var start_date = "<?php echo date('Y-m-d H:i:s',strtotime("-3 days")); ?>";
+                    var start_date = "<?php 
+                        $start_date = date('Y-m-d',strtotime("-3 days")); //get utc date
+                        $start_date = $start_date . " 00:00:00"; //set time to 12 AM
+                        echo $start_date;
+                    ?>";
 
                     // Today's date
-                    var end_date = "<?php echo date('Y-m-d H:i:s'); ?>";
+                    var end_date = "<?php echo date('Y-m-d H:i:s'); ?>"; //today current UTC date and time
 
                     var crypto = $('#crypto').find(":selected").val();
 
                     $("#container").empty();
 
                     // Get Api Data from https://eodhistoricaldata.com/
-                    getApiData(start_date, end_date, 'NDX.INDX');
-
-                    // After API data is stored in server read data for loading the chart
-                    setTimeout(() => {
-                        loadChart(start_date, end_date, 'NDX.INDX');
-                    }, 5000);
-                    // END - By Default Load Last Days Data
+                    getApiData(start_date, end_date, 'NDX.INDX'); //by default load NASDAQ data
 
 
             $(".load_chart").click(function() {
@@ -142,35 +140,41 @@
 
                     // Get Api Data from https://eodhistoricaldata.com/
                     getApiData(start_date, end_date, crypto);
-
-                    // After API data is stored in server read data for loading the chart
-                    setTimeout(() => {
-                        loadChart(start_date, end_date, crypto);
-                    }, 5000);
                     
                 }else{
 
                     // If user does not select the dates & time but the ticker only
 
-                    <?php date_default_timezone_set('UTC'); ?>
-
-                    var start_date = "<?php echo date('Y-m-d H:i:s',strtotime("-3 days")); ?>";
-
-                    var end_date = "<?php echo date('Y-m-d H:i:s'); ?>";
-
                     var crypto = $('#crypto').find(":selected").val();
 
-                    $("#container").empty()
+                    // By Default Load Last Days Data
+                    <?php date_default_timezone_set('UTC'); ?>
+                    
+                    // I have found that last data date is 3 days old from today. 
+                    // e.g. It is 13th February but they provided 10th February's data as last data
+                    if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
+                        // For EOD data get last 10 days data 
+                        var start_date = "<?php 
+                            $start_date = date('Y-m-d',strtotime("-30 days")); //get utc date
+                            $start_date = $start_date . " 00:00:00"; //set time to 12 AM
+                            echo $start_date;
+                        ?>";
+                    }else{
+                        // For intra day data
+                        var start_date = "<?php 
+                            $start_date = date('Y-m-d',strtotime("-3 days")); //get utc date
+                            $start_date = $start_date . " 00:00:00"; //set time to 12 AM
+                            echo $start_date;
+                        ?>";
+                    }
+
+                    // Today's date
+                    var end_date = "<?php echo date('Y-m-d H:i:s'); ?>"; //today current UTC date and time
+
+                    $("#container").empty();
 
                     // Get Api Data from https://eodhistoricaldata.com/
                     getApiData(start_date, end_date, crypto);
-
-                    // After API data is stored in server read data for loading the chart
-                    setTimeout(() => {
-                        loadChart(start_date, end_date, crypto);
-                    }, 5000);
-
-
                 }
             });
         });
@@ -180,7 +184,7 @@
         //Get Api Data from https://eodhistoricaldata.com/
         function getApiData(startDate, endDate, crypto){
 
-            var api_url = 'https://www.marintai.com/adq234/adq234/j2';
+            var api_url = 'http://eod.com/eodhistoricaldata';
 
             // API get data from eodhistoricaldata.com and store CSV file in server
             axios.get(api_url+'/api/api_get_eodhistoricaldata_data.php', {
@@ -192,7 +196,8 @@
                 })
                 .then(function(response) {
                     // handle success
-                    console.log(response.request.responseURL);
+                    // console.log(response.request.responseURL);
+                    loadChart(startDate, endDate, crypto); //get chart data and show the chart
                 })
                 .catch(function(error) {
                     // handle error
@@ -216,7 +221,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'https://www.marintai.com/adq234/adq234/j2';
+            var api_url = 'http://eod.com/eodhistoricaldata';
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {
@@ -227,8 +232,9 @@
                 })
                 .then(function(response) {
                     // handle success
-                    setData(response.data)
                     // console.log(response.request.responseURL);
+                    setData(response.data); //set response data
+                    showChart(); //show the candlestick chart
                 })
                 .catch(function(error) {
                     // handle error
@@ -247,12 +253,21 @@
 
             // Function to generate a sample set of Candlestick datapoints
 
-            setTimeout(() => { //invoke it after 2 seconds
+            function showChart() { //invoke it after api call
 
                 function generateCandlestickData() {
                     return apiResponseDataSet;
                 }
 
+                // Show/hide time in chart
+                if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
+                    // For EOD chart
+                    var showTimeInChart = false;
+                }else{
+                    // For intra day chart
+                    var showTimeInChart = true;
+                }
+                    
                 // Create the Lightweight Chart within the container element
                 const chart = LightweightCharts.createChart(
                     document.getElementById('container'), {
@@ -272,11 +287,12 @@
                         },
                         timeScale: {
                             borderColor: "rgba(197, 203, 206, 0.8)",
-                            timeVisible: true,
+                            timeVisible: showTimeInChart,
                             secondsVisible: false,
                         },
                     }
                 );
+                
 
                 // Setting the border color for the vertical axis
                 chart.priceScale().applyOptions({
@@ -402,7 +418,7 @@
                     chart.resize(window.innerWidth, window.innerHeight);
                 });
 
-            }, 3000);
+            };
 
 
         }
