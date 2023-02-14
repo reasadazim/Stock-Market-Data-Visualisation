@@ -353,7 +353,7 @@
                             labelBackgroundColor: "#9B7DFF",
                         },
                     },
-                });
+                });             
 
                 // Generate sample data to use within a candlestick series
                 const candleStickData = generateCandlestickData().map((datapoint) => {
@@ -386,6 +386,7 @@
                 });
                 // Set the data for the Area Series
                 areaSeries.setData(lineData);
+                
 
                 // Create the Main Series (Candlesticks)
                 const mainSeries = chart.addCandlestickSeries();
@@ -409,6 +410,40 @@
                         bottom: 0.2,
                     },
                 });
+
+
+                // chart.addLineSeries({
+                //     priceFormat: {
+                //         minMove: 0.25,
+                //     }
+                // });                 
+                
+                chart.addBarSeries({
+                    priceFormat: {
+                        minMove: 0.25,
+                    }
+                }); 
+
+                mainSeries.createPriceLine({
+                    price: 12510.00,
+                    color: 'rgba(229, 37, 69, 1)',
+                    lineWidth: 2,
+                    lineStyle: LightweightCharts.LineStyle.Dotted,
+                    title: 'sell order',
+                    draggable: true,
+                });
+
+                mainSeries.createPriceLine({
+                    price: 12410.00,
+                    color: 'rgba(229, 37, 69, 1)',
+                    lineWidth: 2,
+                    lineStyle: LightweightCharts.LineStyle.Dashed,
+                    title: 'buy order',
+                    draggable: true,
+                });
+
+
+                
 
                 // Adding a window resize event handler to resize the chart when
                 // the window size changes.
