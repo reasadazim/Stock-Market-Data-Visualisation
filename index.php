@@ -103,7 +103,7 @@
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
                     var start_date = "<?php 
-                        $start_date = date('Y-m-d',strtotime("-3 days")); //get utc date
+                        $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
                         $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                         echo $start_date;
                     ?>";
@@ -127,11 +127,11 @@
                     // If user select the dates, time & the ticker
 
                     var start_date = $('.start_date').val();
-                    start_date += '00:00:00';  
+                    start_date += ' 00:00:00';  
                     start_date = start_date.replace('T',' ');
 
                     var end_date = $('.end_date').val();
-                    end_date += '00:00:00'; 
+                    end_date += ' 00:00:00'; 
                     end_date = end_date.replace('T',' ');
 
                     var crypto = $('#crypto').find(":selected").val();
@@ -155,14 +155,14 @@
                     if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
                         // For EOD data get last 10 days data 
                         var start_date = "<?php 
-                            $start_date = date('Y-m-d',strtotime("-30 days")); //get utc date
+                            $start_date = date('Y-m-d',strtotime("-1140 days")); //get utc date
                             $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                             echo $start_date;
                         ?>";
                     }else{
                         // For intra day data
                         var start_date = "<?php 
-                            $start_date = date('Y-m-d',strtotime("-3 days")); //get utc date
+                            $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
                             $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                             echo $start_date;
                         ?>";
@@ -184,7 +184,7 @@
         //Get Api Data from https://eodhistoricaldata.com/
         function getApiData(startDate, endDate, crypto){
 
-            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
+            var api_url = 'https://www.marintai.com/adq234/adq234/j2';
 
             // API get data from eodhistoricaldata.com and store CSV file in server
             axios.get(api_url+'/api/api_get_eodhistoricaldata_data.php', {
@@ -221,7 +221,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
+            var api_url = 'https://www.marintai.com/adq234/adq234/j2';
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {

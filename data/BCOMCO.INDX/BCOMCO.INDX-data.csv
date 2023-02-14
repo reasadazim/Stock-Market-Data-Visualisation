@@ -1,3 +1,1 @@
-Date,Open,High,Low,Close,Adjusted_close,Volume
-2023-02-10,474.95,489.45,473.02,487.12,487.12,0
-2023-02-13,483.39,487.69,480.21,487.07,487.07,0
+{"errors":{"from":["2023-01-0 is not a valid date."]}}
