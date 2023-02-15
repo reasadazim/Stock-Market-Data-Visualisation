@@ -51,7 +51,7 @@ function csvToJson($fname) {
 
         $data = csvToJson($local_csv_file_name);
 
-        if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
+        if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||($crypto == 'BCOMGC.INDX')){
             // For EOD data
             // Filter data -> converting miliseconds to year
             foreach($data as $datum){
@@ -73,11 +73,12 @@ function csvToJson($fname) {
                 // For Intra day data
                 // Filter data -> converting miliseconds to year
                 foreach($data as $datum){
-                $mil = new DateTime($datum['Datetime']);
-                $seconds = $mil->getTimestamp();
+                // $d = date($datum['Datetime']);
+                // $mil = new DateTime($d);
+                // $seconds = $mil->getTimestamp();
                 if( (float)$datum['Open'] != 0 ){
                     $filtered_data[] = array(
-                        'time' => $seconds,
+                        'time' => (int)$datum['Timestamp'],
                         'open' => (float)$datum['Open'],
                         'high' => (float)$datum['High'],
                         'low' => (float)$datum['Low'],

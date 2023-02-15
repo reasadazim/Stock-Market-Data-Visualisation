@@ -188,7 +188,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'https://www.marintai.com/adq234/adq234/j2';
+            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {
