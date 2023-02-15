@@ -115,8 +115,8 @@
 
                     $("#container").empty();
 
-                    // Get Api Data from https://eodhistoricaldata.com/
-                    getApiData(start_date, end_date, 'NDX.INDX'); //by default load NASDAQ data
+                    // Load Data from csv file and show chart
+                    loadChart(start_date, end_date, 'NDX.INDX'); 
 
 
             $(".load_chart").click(function() {
@@ -138,8 +138,8 @@
 
                     $("#container").empty()
 
-                    // Get Api Data from https://eodhistoricaldata.com/
-                    getApiData(start_date, end_date, crypto);
+                    // Load Data from csv file and show chart
+                    loadChart(startDate, endDate, crypto); 
                     
                 }else{
 
@@ -152,7 +152,7 @@
                     
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
-                    if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
+                    if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||(crypto == 'BCOMGC.INDX')){
                         // For EOD data get last 10 days data 
                         var start_date = "<?php 
                             $start_date = date('Y-m-d',strtotime("-1140 days")); //get utc date
@@ -173,44 +173,11 @@
 
                     $("#container").empty();
 
-                    // Get Api Data from https://eodhistoricaldata.com/
-                    getApiData(start_date, end_date, crypto);
+                    // Load Data from csv file and show chart
+                    loadChart(start_date, end_date, crypto); 
                 }
             });
         });
-
-
-
-        //Get Api Data from https://eodhistoricaldata.com/
-        function getApiData(startDate, endDate, crypto){
-
-            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
-
-            // API get data from eodhistoricaldata.com and store CSV file in server
-            axios.get(api_url+'/api/api_get_eodhistoricaldata_data.php', {
-                    params: {
-                        startDate: startDate,
-                        endDate: endDate,
-                        crypto: crypto
-                    }
-                })
-                .then(function(response) {
-                    // handle success
-                    // console.log(response.request.responseURL);
-                    loadChart(startDate, endDate, crypto); //get chart data and show the chart
-                })
-                .catch(function(error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function() {
-
-                });
-            // END - API get data from eodhistoricaldata.com and store CSV file in server 
-        }
-
-
-
 
 
 
@@ -221,7 +188,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
+            var api_url = 'https://www.marintai.com/adq234/adq234/j2';
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {

@@ -7,22 +7,29 @@
 // Setting timezone to UTC, Otherwise eodhistoricaldata.com does not provide data
     date_default_timezone_set('UTC');
 
+
     // Get query parameters
-    $start_date = $_GET["startDate"];
-    $end_date = $_GET["endDate"];
     $crypto = $_GET["crypto"];
 
-    // echo $start_date."<br>";
-    // echo $end_date."<br>";
-    // echo $crypto."<br>";
+
+    if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||($crypto == 'BCOMGC.INDX')){
+        // For EOD data get last -1140 days data 
+            $start_date = date('Y-m-d',strtotime("-1140 days")); //get utc date
+            $end_date = date('Y-m-d');
+    }else{
+        // For intra day data get last -600 days data 
+            $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
+            $start_date = $start_date . " 00:00:00"; //set time to 12 AM
+            $end_date = date('Y-m-d H:i:s');
+    }
+
 
 // ********************** Get the API response and store data in CSV file **********************
 
     if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
         // For EOD ticker we need date as normal date format e.g. 2023-02-28
-        $from = substr($start_date, 0, -9);
-    
-        $to = substr($end_date, 0, -9);
+        $from = $start_date;
+        $to = $end_date;
         
         // Setting API URL
         $remote_file_name = "https://eodhistoricaldata.com/api/eod/".$crypto."?api_token=63e9be52e52de8.36159257&interval=5m&from=".$from."&to=".$to."";
