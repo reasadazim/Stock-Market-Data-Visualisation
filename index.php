@@ -181,42 +181,6 @@
 
 
 
-<<<<<<< Updated upstream
-=======
-        //Get Api Data from https://eodhistoricaldata.com/
-        function getApiData(startDate, endDate, crypto){
-
-            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
-
-            // API get data from eodhistoricaldata.com and store CSV file in server
-            axios.get(api_url+'/api/api_get_eodhistoricaldata_data.php', {
-                    params: {
-                        startDate: startDate,
-                        endDate: endDate,
-                        crypto: crypto
-                    }
-                })
-                .then(function(response) {
-                    // handle success
-                    // console.log(response.request.responseURL);
-                    loadChart(startDate, endDate, crypto); //get chart data and show the chart
-                })
-                .catch(function(error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function() {
-
-                });
-            // END - API get data from eodhistoricaldata.com and store CSV file in server 
-        }
-
-
-
-
-
-
->>>>>>> Stashed changes
         // Load data in chart
         function loadChart(startDate, endDate, crypto) {
 
@@ -224,11 +188,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-<<<<<<< Updated upstream
-            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
-=======
             var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
->>>>>>> Stashed changes
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {
@@ -239,7 +199,7 @@
                 })
                 .then(function(response) {
                     // handle success
-                    // console.log(response.request.responseURL);
+                    console.log(response.request.responseURL);
                     setData(response.data); //set response data
                     showChart(); //show the candlestick chart
                 })
