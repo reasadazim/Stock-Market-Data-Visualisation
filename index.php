@@ -175,10 +175,6 @@
 
                     // Load Data from csv file and show chart
                     loadChart(start_date, end_date, crypto); 
-                    setInterval((start_date, end_date, crypto) => {
-                        $("#container").empty();
-                        loadChart(start_date, end_date, crypto); 
-                    }, 3000);
                 }
             });
         });
@@ -192,7 +188,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
+            var api_url = 'https://binance.reasadazim.com/j2';
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {
@@ -203,7 +199,7 @@
                 })
                 .then(function(response) {
                     // handle success
-                    console.log(response.request.responseURL);
+                    // console.log(response.request.responseURL);
                     setData(response.data); //set response data
                     showChart(); //show the candlestick chart
                 })
@@ -362,16 +358,45 @@
 
                 // Create the Main Series (Candlesticks)
                 const mainSeries = chart.addCandlestickSeries();
+
                 // Set the data for the Main Series
-                
                 mainSeries.setData(candleStickData);
-                function updateChartData(ddd){
-                    mainSeries.update(ddd);
+
+                // Function to update LIVE data
+                function updateChartData(liveData){
+                    // Update live data
+                    mainSeries.update(liveData);
+
+                    // Update live data (area, purple color)
+                    var area = {
+                        time: liveData.time,
+                        value: (liveData.close + liveData.open) / 2,
+                    };
+                    areaSeries.update(area);
                 }
                 
-                setInterval((chart) => {
-                    updateChartData({ "time": 1676499360, "open": 12531.5996, "high": 12689.3389, "low": 12486.417, "close": 12687.8936 });
+                setInterval(() => {
+
+                    var api_url = 'https://binance.reasadazim.com/j2';
+
+                    axios.get(api_url+'/api/api_get_chart_data_live.php?crypto='+crypto, {})
+                        .then(function(response) {
+                            // handle success
+                            // console.log(response.request.responseURL);
+                            // console.log(Object.assign({}, response.data));
+
+                            // Update live data
+                            updateChartData(Object.assign({}, response.data));
+                        })
+                        .catch(function(error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .then(function() {
+
+                        });
                 }, 2000);
+                // END - Function to update LIVE data
 
                 // Changing the Candlestick colors
                 mainSeries.applyOptions({
