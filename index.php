@@ -175,6 +175,10 @@
 
                     // Load Data from csv file and show chart
                     loadChart(start_date, end_date, crypto); 
+                    setInterval((start_date, end_date, crypto) => {
+                        $("#container").empty();
+                        loadChart(start_date, end_date, crypto); 
+                    }, 3000);
                 }
             });
         });
