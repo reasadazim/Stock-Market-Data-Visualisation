@@ -335,6 +335,8 @@
                     };
                 });
 
+                
+
                 // Convert the candlestick data for use with a line series
                 const lineData = candleStickData.map((datapoint) => ({
                     time: datapoint.time,
@@ -357,7 +359,15 @@
                 // Create the Main Series (Candlesticks)
                 const mainSeries = chart.addCandlestickSeries();
                 // Set the data for the Main Series
+                
                 mainSeries.setData(candleStickData);
+                function updateChartData(ddd){
+                    mainSeries.update(ddd);
+                }
+                
+                setInterval((chart) => {
+                    updateChartData({ "time": 1676499360, "open": 12531.5996, "high": 12689.3389, "low": 12486.417, "close": 12687.8936 });
+                }, 2000);
 
                 // Changing the Candlestick colors
                 mainSeries.applyOptions({
