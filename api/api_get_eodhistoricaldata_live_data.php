@@ -27,13 +27,63 @@ date_default_timezone_set('UTC');
 
     $response = json_decode($data, true); //convert json data type to array
  
-    $date = date("d/m/Y h:i", $response[0]); // convert timestamp to date & time
+    $date = date("Y-m-d h:i:s", (int)$response[0]); // convert timestamp to date & time
 
     array_splice( $response, 2, 0, $date); //convert date time from the timestamp and push into thea array
 
-    $handle = fopen($local_csv_file_name, "a");
-    fputcsv($handle, $response); # $line is an array of strings (array|string[])
-    fclose($handle);
+
+
+
+    // php function to convert csv to json format, we are reading last row data from CSV to update the candlestick chart
+    function csvToJson($fname) {
+        // open csv file
+        if (!($fp = fopen($fname, 'r'))) {
+            die("Can't open file...");
+        }
+        
+        // Get last row data
+        $rows = file($fname);
+        $last_row = array_pop($rows);
+        $data = str_getcsv($last_row);
+
+        // release file handle
+        fclose($fp);
+        
+        // encode array to json
+        return $data;
+    }
+
+    if(file_exists($local_csv_file_name)){
+        $data = csvToJson($local_csv_file_name);
+    }
+    // END - php function to convert csv to json format, we are reading last row data from CSV to update the candlestick chart
+
+    // If timestamps are same then do nothing, duplicate timestamp breaks the chart
+    if($data[0]==$response[0]){
+
+    }else{
+        if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
+            
+            // Filtering data for EOD data
+            $filtered[] = substr($response[2], 0, -9);
+            $filtered[] = $response[3];
+            $filtered[] = $response[4];
+            $filtered[] = $response[5];
+            $filtered[] = $response[6];
+            $filtered[] = $response[6];
+            $filtered[] = $response[7];
+
+            $handle = fopen($local_csv_file_name, "a");
+            fputcsv($handle, $filtered); # $filtered is an array of strings (array|string[])
+            fclose($handle);
+        }else{
+            
+            $handle = fopen($local_csv_file_name, "a");
+            fputcsv($handle, $response); # $response is an array of strings (array|string[])
+            fclose($handle);
+        }
+    }
+
 
 // ********************** END - Get the API response and store data in CSV file **********************
 

@@ -103,13 +103,17 @@
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
                     var start_date = "<?php 
-                        $start_date = date('Y-m-d',strtotime("-3 days")); //get utc date
+                        $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
                         $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                         echo $start_date;
                     ?>";
 
-                    // Today's date
-                    var end_date = "<?php echo date('Y-m-d H:i:s'); ?>"; //today current UTC date and time
+                    // Today's date + 5 days so that we do not miss any data.
+                    var end_date = "<?php 
+                            $end_date = date('Y-m-d',strtotime("+5 days")); //get utc date
+                            $end_date = $end_date . " 00:00:00"; //set time to 12 AM
+                            echo $end_date;
+                        ?>";
 
                     var crypto = $('#crypto').find(":selected").val();
 
@@ -139,7 +143,7 @@
                     $("#container").empty()
 
                     // Load Data from csv file and show chart
-                    loadChart(startDate, endDate, crypto); 
+                    loadChart(start_date, end_date, crypto); 
                     
                 }else{
 
@@ -155,21 +159,25 @@
                     if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||(crypto == 'BCOMGC.INDX')){
                         // For EOD data get last 10 days data 
                         var start_date = "<?php 
-                            $start_date = date('Y-m-d',strtotime("-1140 days")); //get utc date
+                            $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
                             $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                             echo $start_date;
                         ?>";
                     }else{
                         // For intra day data
                         var start_date = "<?php 
-                            $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
+                            $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
                             $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                             echo $start_date;
                         ?>";
                     }
 
-                    // Today's date
-                    var end_date = "<?php echo date('Y-m-d H:i:s'); ?>"; //today current UTC date and time
+                    // Today's date + 5 days so that we do not miss any data.
+                    var end_date = "<?php 
+                            $end_date = date('Y-m-d',strtotime("+5 days")); //get utc date
+                            $end_date = $end_date . " 00:00:00"; //set time to 12 AM
+                            echo $end_date;
+                        ?>";
 
                     $("#container").empty();
 
@@ -188,7 +196,9 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'https://binance.reasadazim.com/j2';
+            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
+
+            crypto = $('#crypto').find(":selected").val();
 
             axios.get(api_url+'/api/api_get_chart_data.php', {
                     params: {
@@ -361,11 +371,13 @@
 
                 // Set the data for the Main Series
                 mainSeries.setData(candleStickData);
+                // console.log(candleStickData);
 
                 // Function to update LIVE data
                 function updateChartData(liveData){
                     // Update live data
                     mainSeries.update(liveData);
+                    // console.log(liveData);
 
                     // Update live data (area, purple color)
                     var area = {
@@ -375,15 +387,21 @@
                     areaSeries.update(area);
                 }
                 
+
+
                 setInterval(() => {
 
-                    var api_url = 'https://binance.reasadazim.com/j2';
+                    crypto = $('#crypto').find(":selected").val();
 
-                    axios.get(api_url+'/api/api_get_chart_data_live.php?crypto='+crypto, {})
+                        axios.get(api_url+'/api/api_get_chart_data_live.php', {
+                            params: {
+                                crypto: crypto
+                            }
+                        })
                         .then(function(response) {
                             // handle success
                             // console.log(response.request.responseURL);
-                            // console.log(Object.assign({}, response.data));
+                            console.log(Object.assign({}, response.data));
 
                             // Update live data
                             updateChartData(Object.assign({}, response.data));
@@ -396,6 +414,8 @@
 
                         });
                 }, 2000);
+
+                
                 // END - Function to update LIVE data
 
                 // Changing the Candlestick colors

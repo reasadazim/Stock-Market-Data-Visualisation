@@ -14,11 +14,11 @@
 
     if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||($crypto == 'BCOMGC.INDX')){
         // For EOD data get last -1140 days data 
-            $start_date = date('Y-m-d',strtotime("-1140 days")); //get utc date
+            $start_date = date('Y-m-d',strtotime("-365 days")); //get utc date
             $end_date = date('Y-m-d');
     }else{
         // For intra day data get last -600 days data 
-            $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
+            $start_date = date('Y-m-d',strtotime("-30 days")); //get utc date
             $start_date = $start_date . " 00:00:00"; //set time to 12 AM
             $end_date = date('Y-m-d H:i:s');
     }
