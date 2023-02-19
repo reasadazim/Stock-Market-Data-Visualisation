@@ -59,23 +59,28 @@ date_default_timezone_set('UTC');
     // END - php function to convert csv to json format, we are reading last row data from CSV to update the candlestick chart
 
     // If timestamps are same then do nothing, duplicate timestamp breaks the chart
+
     if($data[0]==$response[0]){
 
     }else{
         if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
-            
-            // Filtering data for EOD data
-            $filtered[] = substr($response[2], 0, -9);
-            $filtered[] = $response[3];
-            $filtered[] = $response[4];
-            $filtered[] = $response[5];
-            $filtered[] = $response[6];
-            $filtered[] = $response[6];
-            $filtered[] = $response[7];
+            if($data[0]==(date("Y-m-d", ($response[0])))){
 
-            $handle = fopen($local_csv_file_name, "a");
-            fputcsv($handle, $filtered); # $filtered is an array of strings (array|string[])
-            fclose($handle);
+            }else{
+                // Filtering data for EOD data
+                $filtered[] = substr($response[2], 0, -9);
+                $filtered[] = $response[3];
+                $filtered[] = $response[4];
+                $filtered[] = $response[5];
+                $filtered[] = $response[6];
+                $filtered[] = $response[6];
+                $filtered[] = $response[7];
+
+                $handle = fopen($local_csv_file_name, "a");
+                fputcsv($handle, $filtered); # $filtered is an array of strings (array|string[])
+                fclose($handle);
+            }
+
         }else{
             
             $handle = fopen($local_csv_file_name, "a");

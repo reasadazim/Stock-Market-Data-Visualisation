@@ -124,7 +124,13 @@
 
 
             $(".load_chart").click(function() {
-        
+
+                // Clear all setInterval function
+                    for(i=0; i<100; i++)
+                    {
+                        window.clearInterval(i);
+                    }
+                // END - Clear all setInterval function
 
                 if (($('.start_date').val() != '') && ($('.end_date').val() != '') && ($('#crypto').find(":selected").val() != '')) {
 
@@ -210,7 +216,7 @@
                 .then(function(response) {
                     // handle success
                     // console.log(response.request.responseURL);
-                    setData(response.data); //set response data
+                    setData(response.data); //set response dataz
                     showChart(); //show the candlestick chart
                 })
                 .catch(function(error) {
@@ -413,7 +419,7 @@
                         .then(function() {
 
                         });
-                }, 2000);
+                }, 5000);
 
                 
                 // END - Function to update LIVE data
