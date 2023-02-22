@@ -36,10 +36,10 @@ function csvToJson($fname) {
 
 // ************* Get data from file and output as json *************
 
-    $local_csv_file_name = "../data/".$crypto."/".$crypto."-data.csv"; 
+    $local_csv_file_name_live = "../data/".$crypto."/".$crypto."-live-data.csv"; 
 
-    if(file_exists($local_csv_file_name)){
-        $data = csvToJson($local_csv_file_name);
+    if(file_exists($local_csv_file_name_live)){
+        $data = csvToJson($local_csv_file_name_live);
     }
 
 

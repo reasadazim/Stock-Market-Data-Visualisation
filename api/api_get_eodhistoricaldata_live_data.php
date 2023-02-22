@@ -11,9 +11,9 @@ date_default_timezone_set('UTC');
 
 
     $remote_file_name = "https://eodhistoricaldata.com/api/real-time/".$crypto."?api_token=63e9be52e52de8.36159257&fmt=json&filter=timestamp,gmtoffset,open,high,low,close,volume";
-
+    var_dump($remote_file_name);
     //setting file name to save
-    $local_csv_file_name = "../data/".$crypto."/".$crypto."-data.csv"; 
+    $local_csv_file_name_live = "../data/".$crypto."/".$crypto."-live-data.csv"; 
     
 
     // Call API
@@ -53,8 +53,8 @@ date_default_timezone_set('UTC');
         return $data;
     }
 
-    if(file_exists($local_csv_file_name)){
-        $data = csvToJson($local_csv_file_name);
+    if(file_exists($local_csv_file_name_live)){
+        $data = csvToJson($local_csv_file_name_live);
     }
     // END - php function to convert csv to json format, we are reading last row data from CSV to update the candlestick chart
 
@@ -64,26 +64,27 @@ date_default_timezone_set('UTC');
 
     }else{
         if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
-            if($data[0]==(date("Y-m-d", ($response[0])))){
+            if($response[0]!="NA"){//if data available
+                if($data[0]==(date("Y-m-d", ($response[0])))){
 
-            }else{
-                // Filtering data for EOD data
-                $filtered[] = substr($response[2], 0, -9);
-                $filtered[] = $response[3];
-                $filtered[] = $response[4];
-                $filtered[] = $response[5];
-                $filtered[] = $response[6];
-                $filtered[] = $response[6];
-                $filtered[] = $response[7];
-
-                $handle = fopen($local_csv_file_name, "a");
-                fputcsv($handle, $filtered); # $filtered is an array of strings (array|string[])
-                fclose($handle);
+                }else{
+                    // Filtering data for EOD data
+                    $filtered[] = substr($response[2], 0, -9);
+                    $filtered[] = $response[3];
+                    $filtered[] = $response[4];
+                    $filtered[] = $response[5];
+                    $filtered[] = $response[6];
+                    $filtered[] = $response[6];
+                    $filtered[] = $response[7];
+    
+                    $handle = fopen($local_csv_file_name_live, "a");
+                    fputcsv($handle, $filtered); # $filtered is an array of strings (array|string[])
+                    fclose($handle);
+                }
             }
-
         }else{
             
-            $handle = fopen($local_csv_file_name, "a");
+            $handle = fopen($local_csv_file_name_live, "a");
             fputcsv($handle, $response); # $response is an array of strings (array|string[])
             fclose($handle);
         }

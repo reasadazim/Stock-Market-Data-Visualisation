@@ -103,7 +103,7 @@
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
                     var start_date = "<?php 
-                        $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
+                        $start_date = date('Y-m-d',strtotime("-7 days")); //get utc date
                         $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                         echo $start_date;
                     ?>";
