@@ -202,7 +202,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
+            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
 
             crypto = $('#crypto').find(":selected").val();
 
