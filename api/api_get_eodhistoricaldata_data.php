@@ -32,8 +32,8 @@
         $to = $end_date;
         
         // Setting API URL
-        $remote_file_name = "https://eodhistoricaldata.com/api/eod/".$crypto."?&from=".$from."&to=".$to."&period=d&api_token=63e9be52e52de8.36159257";
-        echo $remote_file_name."<br>";
+        $remote_file_name = "https://eodhistoricaldata.com/api/eod/".$crypto."?api_token=63e9be52e52de8.36159257&interval=1m&from=".$from."&to=".$to."";
+        // echo $remote_file_name."<br>";
     }else{
         // For Intraday ticker we need date as timestamp e.g. 1564752900 (2019-08-02 13:35:00)
         $start_date_time_local = new DateTime($start_date);
