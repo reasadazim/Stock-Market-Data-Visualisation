@@ -22,7 +22,7 @@ def job():
 
 
 # Schedule to run the job in every 1 minutes
-schedule.every(5).seconds.do(job)
+schedule.every().minute.at(":59").do(job)
 
 while True:
     schedule.run_pending()

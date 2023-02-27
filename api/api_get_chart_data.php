@@ -1,15 +1,36 @@
 <?php
-   
-// Folloing code reads the file from a date till date and outputs JSON data for candlestick plot
-
-// Setting timezone to UTC, Otherwise eodhistoricaldata.com does not provide data
+  
+// Folloing code reads all the file from a date till today and outputs JSON data for candlestick plot
 date_default_timezone_set('UTC');
-
-// Get query parameters
-$start_date = $_GET["startDate"];
-$end_date = $_GET["endDate"];
-$crypto = $_GET["crypto"];
+   
+ $start_date = $_GET["startDate"];
+ $end_date = $_GET["endDate"];
+ $crypto = $_GET["crypto"];
  
+//  Add 1 day to end date in order to get 1 day interval  (P1D)
+ $next_date = new DateTime($end_date);
+ $next_date->add(new DateInterval("P1D"));
+ $end_date =  $next_date->format('Y-m-d');
+
+// $today = date("Y-m-d"); //current date
+
+if((is_null($start_date))&&(is_null($start_date))){
+
+}else{
+
+// If it is called by frontend
+$period = new DatePeriod(
+    new DateTime($start_date),
+    new DateInterval('P1D'),
+    new DateTime($end_date )
+);
+
+
+
+}
+
+
+
 
 // php function to convert csv to json format
 function csvToJson($fname) {
@@ -19,7 +40,13 @@ function csvToJson($fname) {
     }
     
     //read csv headers
-    $key = fgetcsv($fp,"1024",",");
+    $key = array(
+        'Time', 
+        'Open', 
+        'High', 
+        'Low', 
+        'Close', 
+    );
     
     // parse csv rows into array
     $json = array();
@@ -45,120 +72,24 @@ function csvToJson($fname) {
 
 // ************* Get data from file and output as json *************
 
-    $local_csv_file_name = "../data/".$crypto."/".$crypto."-data.csv"; 
+  foreach ($period as $key => $value) {
+
+    $local_csv_file_name = "../data/".$crypto."/".$crypto."-".$value->format('Y-m-d')."-1m.csv";
+
 
     if(file_exists($local_csv_file_name)){
 
         $data = csvToJson($local_csv_file_name);
 
-        if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||($crypto == 'BCOMGC.INDX')){
-            // For EOD data
+        if(is_null($data)){}else{
             // Filter data -> converting miliseconds to year
             foreach($data as $datum){
-
-                $date_format = str_replace("/","-",$datum['Date']); //remove / and replace with -
-                $mil = new DateTime($date_format." 23:59:59"); //setting time manually for end of day
-                $seconds = $mil->getTimestamp();
-
-                // date to milliseconds
-                $date_from = date(substr($start_date, 0, -9)); // trimming 2023-02-14+00:00:00 to 2023-02-14
-                $mil_from = new DateTime($date_from." 23:59:59"); // adding manual time for EOD since they do not gives time in their API
-                $seconds_from = $mil_from->getTimestamp();
-
-                // End date to milliseconds
-                $date_to = date(substr($end_date, 0, -9)); // trimming 2023-02-14+00:00:00 to 2023-02-14;
-                $mil_to = new DateTime($date_to);
-                $seconds_to = $mil_to->getTimestamp();
-
-
-                if(($seconds_from < $seconds)&&($seconds_to > $seconds)){ //check the time is within the time selected time frame
-                    if( (float)$datum['Open'] != 0 ){
-                        $filtered_data[] = array(
-                            'time' => $seconds,
-                            'open' => (float)$datum['Open'],
-                            'high' => (float)$datum['High'],
-                            'low' => (float)$datum['Low'],
-                            'close' => (float)$datum['Close'],
-                        );
-                    }
-                }
-            }
-            // END - Filter data -> converting miliseconds to year
-
-        }else{
-                // For Intra day data
-
-                foreach($data as $datum){
-                
-                // Start date to milliseconds
-                $date_from = date($start_date);
-                $mil_from = new DateTime($date_from);
-                $seconds_from = $mil_from->getTimestamp();
-
-                // End date to milliseconds
-                $date_to = date($end_date);
-                $mil_to = new DateTime($date_to);
-                $seconds_to = $mil_to->getTimestamp();
-            
-
-                if(($seconds_from<(int)$datum['Timestamp'])&&($seconds_to>(int)$datum['Timestamp'])){ //check the time is within the time selected time frame
-                    if( (float)$datum['Open'] != 0 ){
-                        $filtered_data[] = array(
-                            'time' => (int)$datum['Timestamp'],
-                            'open' => (float)$datum['Open'],
-                            'high' => (float)$datum['High'],
-                            'low' => (float)$datum['Low'],
-                            'close' => (float)$datum['Close'],
-                        );
-                    }
-                }
-            }
-            // END - For Intra day data
-
-        }
-
-    }
-
-
-// ************* END - Get data from file and output as json *************
-
-
-
-
-
-
-// ************* Get LIVE data from file and output as json *************
-
-$local_csv_file_name_live = "../data/".$crypto."/".$crypto."-live-data.csv"; 
-
-if(file_exists($local_csv_file_name_live)){
-
-    $data = csvToJson($local_csv_file_name_live);
-
-    if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||($crypto == 'BCOMGC.INDX')){
-        // For EOD data
-        // Filter data -> converting miliseconds to year
-        foreach($data as $datum){
-
-            $date_format = str_replace("/","-",$datum['Date']); //remove / and replace with -
-            $mil = new DateTime($date_format." 23:59:59"); //setting time manually for end of day
-            $seconds = $mil->getTimestamp();
-
-            // date to milliseconds
-            $date_from = date(substr($start_date, 0, -9)); // trimming 2023-02-14+00:00:00 to 2023-02-14
-            $mil_from = new DateTime($date_from." 23:59:59"); // adding manual time for EOD since they do not gives time in their API
-            $seconds_from = $mil_from->getTimestamp();
-
-            // End date to milliseconds
-            $date_to = date(substr($end_date, 0, -9)); // trimming 2023-02-14+00:00:00 to 2023-02-14;
-            $mil_to = new DateTime($date_to);
-            $seconds_to = $mil_to->getTimestamp();
-
-
-            if(($seconds_from < $seconds)&&($seconds_to > $seconds)){ //check the time is within the time selected time frame
+                $mil = strtotime($datum['Time']);
+                // $seconds = $mil / 1000;
                 if( (float)$datum['Open'] != 0 ){
                     $filtered_data[] = array(
-                        'time' => $seconds,
+                        // 'time' => date("Y-m-d", $seconds),
+                        'time' => $mil,
                         'open' => (float)$datum['Open'],
                         'high' => (float)$datum['High'],
                         'low' => (float)$datum['Low'],
@@ -169,47 +100,12 @@ if(file_exists($local_csv_file_name_live)){
         }
         // END - Filter data -> converting miliseconds to year
 
-    }else{
-            // For Intra day data
-
-            foreach($data as $datum){
-            
-            // Start date to milliseconds
-            $date_from = date($start_date);
-            $mil_from = new DateTime($date_from);
-            $seconds_from = $mil_from->getTimestamp();
-
-            // End date to milliseconds
-            $date_to = date($end_date);
-            $mil_to = new DateTime($date_to);
-            $seconds_to = $mil_to->getTimestamp();
-        
-
-            if(($seconds_from<(int)$datum['Timestamp'])&&($seconds_to>(int)$datum['Timestamp'])){ //check the time is within the time selected time frame
-                if( (float)$datum['Open'] != 0 ){
-                    $filtered_data[] = array(
-                        'time' => (int)$datum['Timestamp'],
-                        'open' => (float)$datum['Open'],
-                        'high' => (float)$datum['High'],
-                        'low' => (float)$datum['Low'],
-                        'close' => (float)$datum['Close'],
-                    );
-                }
-            }
-        }
-        // END - For Intra day data
-
     }
 
 }
 
 
-// ************* END - Get LIVE data from file and output as json *************
-
-
-
-
-
+// ************* END - Get data from file and output as json *************
 
 
 // Output
@@ -220,7 +116,3 @@ echo(json_encode($filtered_data));
 
 
 ?>
-
-
-
-

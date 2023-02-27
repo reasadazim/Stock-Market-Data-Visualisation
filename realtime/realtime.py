@@ -30,7 +30,7 @@ def on_message(ws, message):
         # Set filename e.g. BTC-USD-2022-12-27-1m.csv
         date = datetime.date.today()
         # print(date)
-        file_name = (str)(data['s']) + "-" + (str)(date) + ".csv"
+        file_name = (str)(data['s']) + "-" + (str)(date) + "-1m.csv"
 
         # Write data in csv file
         f = open('stream/' + file_name, "a", encoding='UTF8', newline='')

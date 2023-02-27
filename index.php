@@ -69,11 +69,8 @@
         <input type="date" class="start_date">
         <input type="date" class="end_date">
         <select name="crypto" id="crypto">
-            <option value="NDX.INDX" selcted>NASDAQ</option>
-            <option value="SP500NTR.INDX">S&P500</option>
-            <option value="US2Y.INDX">US02Y</option>
-            <option value="BCOMCO.INDX">UKOIL</option>
-            <option value="BCOMGC.INDX">GOLD</option>
+            <option value="BTC-USD" selcted>BTC-USD</option>
+            <option value="ETH-USD">ETH-USD</option>
         </select>
         <input class="load_chart" type="submit">
     </div>
@@ -110,7 +107,7 @@
 
                     // Today's date + 5 days so that we do not miss any data.
                     var end_date = "<?php 
-                            $end_date = date('Y-m-d',strtotime("+5 days")); //get utc date
+                            $end_date = date('Y-m-d',strtotime("+2 days")); //get utc date
                             $end_date = $end_date . " 00:00:00"; //set time to 12 AM
                             echo $end_date;
                         ?>";
@@ -216,6 +213,7 @@
                 .then(function(response) {
                     // handle success
                     // console.log(response.request.responseURL);
+                    console.log(response.data);
                     setData(response.data); //set response dataz
                     showChart(); //show the candlestick chart
                 })
@@ -395,31 +393,31 @@
                 
 
 
-                setInterval(() => {
+                // setInterval(() => {
 
-                    crypto = $('#crypto').find(":selected").val();
+                //     crypto = $('#crypto').find(":selected").val();
 
-                        axios.get(api_url+'/api/api_get_chart_data_live.php', {
-                            params: {
-                                crypto: crypto
-                            }
-                        })
-                        .then(function(response) {
-                            // handle success
-                            // console.log(response.request.responseURL);
-                            console.log(Object.assign({}, response.data));
+                //         axios.get(api_url+'/api/api_get_chart_data_live.php', {
+                //             params: {
+                //                 crypto: crypto
+                //             }
+                //         })
+                //         .then(function(response) {
+                //             // handle success
+                //             // console.log(response.request.responseURL);
+                //             console.log(Object.assign({}, response.data));
 
-                            // Update live data
-                            updateChartData(Object.assign({}, response.data));
-                        })
-                        .catch(function(error) {
-                            // handle error
-                            console.log(error);
-                        })
-                        .then(function() {
+                //             // Update live data
+                //             updateChartData(Object.assign({}, response.data));
+                //         })
+                //         .catch(function(error) {
+                //             // handle error
+                //             console.log(error);
+                //         })
+                //         .then(function() {
 
-                        });
-                }, 5000);
+                //         });
+                // }, 5000);
 
                 
                 // END - Function to update LIVE data
