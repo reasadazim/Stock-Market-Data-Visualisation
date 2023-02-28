@@ -5,11 +5,15 @@ import json
 import csv
 import datetime
 import pandas as pd
+import os
+import shutil
+import time
 
 try:
     import thread
 except ImportError:
     import _thread as thread
+
 
 
 def on_message(ws, message):
@@ -39,6 +43,27 @@ def on_message(ws, message):
         # f.write(data_filtered  +  "\n" )
         f.close()
 
+        y = convert_timestamp_to_date_time.strftime('%Y-%m-%d %H:%M:%S')
+
+        current_minute = [0]
+
+        if (int(y[14:-3])) > current_minute[0]:
+
+            current_minute[0] = (int(y[14:-3]))
+
+            # Get the list of all files and directories
+            path = "stream/"
+            dir_list = os.listdir(path)
+            for file_name in dir_list:
+                # Copy the CSV file for data processing (stream to OHLC)
+                print("File Copied")
+                shutil.copy('stream/' + file_name, 'copy/' + file_name)
+
+                # Remove existing stream data CSV file so that it can store new data
+                print("File Deleted")
+                os.remove('stream/' + file_name)
+
+
 
 # Print error if any
 def on_error(ws, error):
@@ -59,7 +84,7 @@ def on_open(ws):
 
 
 if __name__ == "__main__":
-    ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
+    ws = websocket.WebSocketApp("wss://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
                                 on_message=on_message,
                                 on_error=on_error,
                                 on_close=on_close)
