@@ -72,7 +72,7 @@
             <option value="BTC-USD" selcted>BTC-USD</option>
             <option value="ETH-USD">ETH-USD</option>
         </select>
-        <input class="load_chart" type="submit">
+        <!-- <input class="load_chart" type="submit"> -->
     </div>
 
 
@@ -100,7 +100,7 @@
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
                     var start_date = "<?php 
-                        $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
+                        $start_date = date('Y-m-d',strtotime("-2 days")); //get utc date
                         $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                         echo $start_date;
                     ?>";
@@ -120,7 +120,7 @@
                     loadChart(start_date, end_date, 'NDX.INDX'); 
 
 
-            $(".load_chart").click(function() {
+            $("#crypto").change(function() {
 
                 // Clear all setInterval function
                     for(i=0; i<100; i++)
@@ -212,8 +212,8 @@
                 })
                 .then(function(response) {
                     // handle success
-                    // console.log(response.request.responseURL);
-                    console.log(response.data);
+                    console.log(response.request.responseURL);
+                    // console.log(response.data);
                     setData(response.data); //set response dataz
                     showChart(); //show the candlestick chart
                 })
@@ -393,31 +393,31 @@
                 
 
 
-                // setInterval(() => {
+                setInterval(() => {
 
-                //     crypto = $('#crypto').find(":selected").val();
+                    crypto = $('#crypto').find(":selected").val();
 
-                //         axios.get(api_url+'/api/api_get_chart_data_live.php', {
-                //             params: {
-                //                 crypto: crypto
-                //             }
-                //         })
-                //         .then(function(response) {
-                //             // handle success
-                //             // console.log(response.request.responseURL);
-                //             console.log(Object.assign({}, response.data));
+                        axios.get(api_url+'/api/api_get_chart_data_live.php', {
+                            params: {
+                                crypto: crypto
+                            }
+                        })
+                        .then(function(response) {
+                            // handle success
+                            console.log(response.request.responseURL);
+                            console.log(response.data);
 
-                //             // Update live data
-                //             updateChartData(Object.assign({}, response.data));
-                //         })
-                //         .catch(function(error) {
-                //             // handle error
-                //             console.log(error);
-                //         })
-                //         .then(function() {
+                            // Update live data
+                            updateChartData(Object.assign({}, response.data));
+                        })
+                        .catch(function(error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .then(function() {
 
-                //         });
-                // }, 5000);
+                        });
+                }, 60000);
 
                 
                 // END - Function to update LIVE data

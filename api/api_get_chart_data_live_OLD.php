@@ -36,19 +36,37 @@ function csvToJson($fname) {
 
 // ************* Get data from file and output as json *************
 
-    $local_csv_file_name = "../data/1m/".$crypto."/".$crypto."-".date("Y-m-d")."-1m.csv";
+    $local_csv_file_name_live = "../data/".$crypto."/".$crypto."-live-data.csv"; 
 
-    if(file_exists($local_csv_file_name)){
-        $data = csvToJson($local_csv_file_name);
+    if(file_exists($local_csv_file_name_live)){
+        $data = csvToJson($local_csv_file_name_live);
+    }
+
+
  
+    
+
+    if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
+        $date_format = str_replace("/","-",$data[0]); //remove / and replace with -
+        $date = new DateTime($date_format." 23:59:59"); // convert date to timestamp
+        $timestamp = $date->getTimestamp();
         // Filtered cell data 
-        $filtered ['time'] = strtotime($data[0]);
+        $filtered ['time'] = (int)$timestamp;
         $filtered ['open'] = (float)$data[1];
         $filtered ['high'] = (float)$data[2];
         $filtered ['low'] = (float)$data[3];
         $filtered ['close'] = (float)$data[4];
+    }else{
+        // Filtered cell data 
+        $filtered ['time'] = (int)$data[0];
+        $filtered ['open'] = (float)$data[3];
+        $filtered ['high'] = (float)$data[4];
+        $filtered ['low'] = (float)$data[5];
+        $filtered ['close'] = (float)$data[6];
     }
-    
+
+
+
 // ************* END - Get data from file and output as json *************
 
 
