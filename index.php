@@ -46,6 +46,7 @@
         }
         
         .date-select {
+            margin-left:10px;
             position: absolute;
             z-index: 9;
         }
@@ -62,7 +63,7 @@
         .ohlc {
             position: fixed;
             width: auto;
-            top: 25px;
+            top: 30px;
             z-index: 99999;
             height: 20px;
             color: hsl(240deg 8% 93%);
@@ -71,9 +72,40 @@
             display: inline-flex;
             visibility:hidden;
         }
-        .o, .h, .l, .c{
+        .o{
             padding-left:10px;
             padding-right:10px;
+            padding-top:3px;
+        }
+        .h {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        }
+        .l {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        } 
+        .c {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        }
+        .tickname, .timescale{
+            padding-left:10px;
+            font-weight:700;
+            font-size:14px;
+        }
+        .timescale{
+            padding-left:10px;
+            padding-right:10px;
+            font-weight:700;
+            font-size:14px;
+        }
+        .tickname:after, .timescale:after{
+            content:"•";
+            margin-left:10px;
         }
 
     </style>
@@ -89,14 +121,22 @@
             <option value="BTC-USD" selcted>BTC-USD</option>
             <option value="ETH-USD">ETH-USD</option>
         </select>
-        <!-- <input class="load_chart" type="submit"> -->
+        <select name="price_scale" id="price_scale">
+            <option value="Normal">Normal</option>
+            <option value="Logarithmic" selected>Logarithmic</option>
+            <option value="Percentage">Percentage</option>
+        </select>
     </div>
+
     <div class="ohlc">
-        <div class="o">O: <span></span></div>
-        <div class="h">H: <span></span></div>
-        <div class="l">L: <span></span></div>
-        <div class="c">C: <span></span></div>
+        <div class="tickname">BTC-USD</div>
+        <div class="timescale">1</div>
+        <div class="o"><strong>O:</strong> <span></span></div>
+        <div class="h"><strong>H:</strong> <span></span></div>
+        <div class="l"><strong>L:</strong> <span></span></div>
+        <div class="c"><strong>C:</strong> <span></span></div>
     </div>
+
 
 
     <div class="loader">
@@ -116,6 +156,8 @@
         }, 500);
 
         $(document).ready(function() {
+                    // Show the crypto value on indicator
+                    $('.tickname').text($('#crypto').find(":selected").val());
 
                     // By Default Load Last Days Data
                     <?php date_default_timezone_set('UTC'); ?>
@@ -144,7 +186,8 @@
 
 
             $("#crypto").change(function() {
-
+                // Show the crypto value on indicator
+                $('.tickname').text($('#crypto').find(":selected").val());
                 // Clear all setInterval function
                     for(i=0; i<100; i++)
                     {
@@ -235,7 +278,7 @@
                 })
                 .then(function(response) {
                     // handle success
-                    console.log(response.request.responseURL);
+                    // console.log(response.request.responseURL);
                     // console.log(response.data);
                     setData(response.data); //set response dataz
                     showChart(); //show the candlestick chart
@@ -407,15 +450,13 @@
 
                 chart.subscribeCrosshairMove((param) => {
                     param.seriesData.forEach(myFunction);
-                    console.log(param.seriesData);
                     function myFunction(item) {
                         if(item.open!=undefined){
-                            
-                            // $('.ohlc').css('visibility','visible');
-                            // $('.o span').text(item.open);
-                            // $('.h span').text(item.high);
-                            // $('.l span').text(item.low);
-                            // $('.c span').text(item.close);
+                            $('.ohlc').css('visibility','visible');
+                            $('.o span').text(item.open);
+                            $('.h span').text(item.high);
+                            $('.l span').text(item.low);
+                            $('.c span').text(item.close);
                         }else{
                             $('.ohlc').css('visibility','hidden');
                         }
@@ -453,8 +494,8 @@
                         })
                         .then(function(response) {
                             // handle success
-                            console.log(response.request.responseURL);
-                            console.log(response.data);
+                            // console.log(response.request.responseURL);
+                            // console.log(response.data);
 
                             // Update live data
                             updateChartData(Object.assign({}, response.data));
@@ -467,12 +508,50 @@
 
                         });
                 }, 60000);
-
-                
-
-
-
                 // END - Function to update LIVE data
+
+
+                // on change price scale input change price scale
+                $(document).ready(function() {
+                    $("#price_scale").change(function() {
+
+                        if ($('#price_scale').find(":selected").val() == 'Percentage') {
+                            chart.priceScale("right").applyOptions({
+                                borderColor: "#71649C",
+                                scaleMargins: {
+                                            top: 0.1,
+                                            bottom: 0.1,
+                                },
+                                mode: LightweightCharts.PriceScaleMode.Percentage,
+                                borderColor: 'rgba(197, 203, 206, 0.4)',
+                            });
+                        }
+                        if ($('#price_scale').find(":selected").val() == 'Logarithmic') {
+                            chart.priceScale("right").applyOptions({
+                                borderColor: "#71649C",
+                                scaleMargins: {
+                                            top: 0.1,
+                                            bottom: 0.1,
+                                },
+                                mode: LightweightCharts.PriceScaleMode.Logarithmic,
+                                borderColor: 'rgba(197, 203, 206, 0.4)',
+                            });
+                        }
+                        if ($('#price_scale').find(":selected").val() == 'Normal') {
+                            chart.priceScale("right").applyOptions({
+                                borderColor: "#71649C",
+                                scaleMargins: {
+                                            top: 0.1,
+                                            bottom: 0.1,
+                                },
+                                mode: LightweightCharts.PriceScaleMode.Normal,
+                                borderColor: 'rgba(197, 203, 206, 0.4)',
+                            });
+                        }
+                    });
+                });
+                // END - on change price scale input change price scale
+ 
 
                 // Changing the Candlestick colors
                 mainSeries.applyOptions({
