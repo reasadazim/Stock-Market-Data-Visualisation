@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 2023-03-02 15:32:17,052 INFO     Websocket connected
 2023-03-02 15:32:59,843 INFO     -----------------------------------------------------------------
 2023-03-02 15:33:05,476 INFO     File BTC-USD-2023-03-02-1m.csv copied from stream to copy directory.
@@ -22,3 +23,290 @@
 2023-03-02 15:34:31,670 INFO     
 2023-03-02 15:34:31,988 ERROR    error from callback <function on_close at 0x000001F1F43F2C00>: on_close() takes 1 positional argument but 3 were given
 2023-03-02 15:34:31,988 INFO     on_close() takes 1 positional argument but 3 were given
+=======
+2023-03-02 01:21:00,613 INFO     -----------------------------------------------------------------
+2023-03-02 01:21:06,044 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:21:06,045 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:21:06,045 INFO     File BTC-USD-2023-03-02-1m.csv copied from stream to copy directory.
+2023-03-02 01:21:06,046 INFO     File BTC-USD-2023-03-02-1m.csv deleted from stream directory.
+2023-03-02 01:21:06,047 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:21:06,048 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:21:06,048 INFO     File ETH-USD-2023-03-02-1m.csv copied from stream to copy directory.
+2023-03-02 01:21:06,049 INFO     File ETH-USD-2023-03-02-1m.csv deleted from stream directory.
+2023-03-02 01:21:11,052 INFO     The new directory ../data/1m/BTC-USD is created!
+2023-03-02 01:21:11,066 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:21:11,069 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:21:11,075 INFO     File BTC-USD-2023-03-02-1m.csv deleted from copy directory
+2023-03-02 01:21:11,076 INFO     File: BTC-USD-2023-03-02-1m.csv updated for frontend.
+2023-03-02 01:21:11,076 INFO     The new directory ../data/1m/ETH-USD is created!
+2023-03-02 01:21:11,081 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:21:11,083 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:21:11,086 INFO     File ETH-USD-2023-03-02-1m.csv deleted from copy directory
+2023-03-02 01:21:11,087 INFO     File: ETH-USD-2023-03-02-1m.csv updated for frontend.
+2023-03-02 01:22:00,613 INFO     -----------------------------------------------------------------
+2023-03-02 01:22:06,769 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:22:06,770 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:22:06,771 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:22:06,772 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:22:11,787 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:22:11,788 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:22:11,794 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:22:11,795 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:23:00,630 INFO     -----------------------------------------------------------------
+2023-03-02 01:23:07,059 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:23:07,061 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:23:07,062 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:23:07,063 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:23:12,078 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:23:12,079 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:23:12,086 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:23:12,087 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:24:00,615 INFO     -----------------------------------------------------------------
+2023-03-02 01:24:07,019 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:24:07,020 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:24:07,020 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:24:07,021 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:24:12,034 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:24:12,035 ERROR    error from callback <function on_message at 0x0000012CD65F8360>: [Errno 13] Permission denied: '../data/1m/BTC-USD/BTC-USD-2023-03-01-1m.csv'
+2023-03-02 01:24:12,102 INFO     -----------------------------------------------------------------
+2023-03-02 01:24:22,108 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:24:22,110 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:25:00,614 INFO     -----------------------------------------------------------------
+2023-03-02 01:25:07,215 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:25:07,217 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:25:07,218 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:25:07,219 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:25:12,228 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:25:12,229 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:25:12,233 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:25:12,234 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:25:36,485 INFO     
+2023-03-02 01:25:36,486 INFO     ### closed ###
+2023-03-02 01:26:00,639 INFO     -----------------------------------------------------------------
+2023-03-02 01:26:05,944 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:26:05,945 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:26:05,945 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:26:05,947 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:26:10,949 INFO     The new directory ../data/1m/BTC-USD is created!
+2023-03-02 01:26:10,964 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:26:10,967 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:26:10,967 INFO     The new directory ../data/1m/ETH-USD is created!
+2023-03-02 01:26:10,972 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:26:10,974 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:27:00,622 INFO     -----------------------------------------------------------------
+2023-03-02 01:27:06,951 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:27:06,953 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:27:06,953 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:27:06,954 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:27:11,970 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:27:11,971 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:27:11,975 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:27:11,976 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:28:00,627 INFO     -----------------------------------------------------------------
+2023-03-02 01:28:07,351 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:28:07,353 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:28:07,353 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:28:07,354 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:28:12,371 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:28:12,372 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:28:12,384 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:28:12,385 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:29:00,648 INFO     -----------------------------------------------------------------
+2023-03-02 01:29:07,126 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:29:07,128 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:29:07,128 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:29:07,130 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:29:12,145 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:29:12,146 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:29:12,155 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:29:12,156 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:30:00,628 INFO     -----------------------------------------------------------------
+2023-03-02 01:30:07,426 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:30:07,428 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:30:07,428 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:30:07,429 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:30:12,440 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:30:12,441 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:30:12,445 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:30:12,446 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:31:00,626 INFO     -----------------------------------------------------------------
+2023-03-02 01:31:08,193 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:31:08,201 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:31:08,201 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:31:08,210 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:31:13,230 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:31:13,230 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:31:13,241 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:31:13,242 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:32:00,627 INFO     -----------------------------------------------------------------
+2023-03-02 01:32:07,056 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:32:07,064 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:32:07,065 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:32:07,070 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:32:12,086 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:32:12,087 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:32:12,092 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:32:12,092 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:33:00,824 INFO     -----------------------------------------------------------------
+2023-03-02 01:33:07,018 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:33:07,028 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:33:07,029 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:33:07,039 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:33:12,070 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:33:12,074 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:33:12,091 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:33:12,093 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:34:00,651 INFO     -----------------------------------------------------------------
+2023-03-02 01:34:07,277 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:34:07,286 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:34:07,287 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:34:07,292 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:34:12,308 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:34:12,309 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:34:12,313 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:34:12,314 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:35:00,650 INFO     -----------------------------------------------------------------
+2023-03-02 01:35:08,226 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:35:08,236 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:35:08,236 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:35:08,244 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:35:13,260 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:35:13,261 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:35:13,272 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:35:13,272 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:36:00,636 INFO     -----------------------------------------------------------------
+2023-03-02 01:36:08,091 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:36:08,097 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:36:08,098 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:36:08,104 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:36:13,121 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:36:13,122 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:36:13,130 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:36:13,131 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:37:00,631 INFO     -----------------------------------------------------------------
+2023-03-02 01:37:07,139 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:37:07,147 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:37:07,147 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:37:07,154 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:37:12,169 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:37:12,170 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:37:12,180 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:37:12,181 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:38:00,637 INFO     -----------------------------------------------------------------
+2023-03-02 01:38:07,666 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:38:07,674 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:38:07,674 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:38:07,680 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:38:12,699 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:38:12,701 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:38:12,715 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:38:12,716 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:39:00,661 INFO     -----------------------------------------------------------------
+2023-03-02 01:39:06,988 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:39:06,996 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:39:06,996 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:39:07,003 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:39:12,018 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:39:12,019 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:39:12,031 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:39:12,033 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:40:00,726 INFO     -----------------------------------------------------------------
+2023-03-02 01:40:07,672 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:40:07,679 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:40:07,679 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:40:07,684 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:40:12,701 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:40:12,702 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:40:12,710 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:40:12,711 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:41:00,636 INFO     -----------------------------------------------------------------
+2023-03-02 01:41:08,646 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:41:08,654 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:41:08,655 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:41:08,660 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:41:13,680 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:41:13,681 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:41:13,692 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:41:13,693 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:42:00,631 INFO     -----------------------------------------------------------------
+2023-03-02 01:42:07,406 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:42:07,415 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:42:07,415 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:42:07,421 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:42:12,436 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:42:12,437 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:42:12,445 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:42:12,446 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:43:00,698 INFO     -----------------------------------------------------------------
+2023-03-02 01:43:07,315 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:43:07,323 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:43:07,323 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:43:07,328 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:43:12,343 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:43:12,344 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:43:12,349 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:43:12,350 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:44:00,658 INFO     -----------------------------------------------------------------
+2023-03-02 01:44:07,399 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:44:07,406 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:44:07,406 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:44:07,411 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:44:12,426 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:44:12,428 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:44:12,435 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:44:12,435 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:45:00,788 INFO     -----------------------------------------------------------------
+2023-03-02 01:45:08,041 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:45:08,044 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:45:08,045 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:45:08,047 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:45:13,068 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:45:13,069 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:45:13,078 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:45:13,079 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:46:00,755 INFO     -----------------------------------------------------------------
+2023-03-02 01:46:09,984 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:46:09,993 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:46:09,994 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:46:10,001 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:46:15,021 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:46:15,022 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:46:15,031 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:46:15,032 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:47:00,689 INFO     -----------------------------------------------------------------
+2023-03-02 01:47:07,842 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:47:07,860 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:47:07,861 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:47:07,868 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:47:12,890 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:47:12,891 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:47:12,895 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:47:12,896 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:48:00,643 INFO     -----------------------------------------------------------------
+2023-03-02 01:48:07,325 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:48:07,334 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:48:07,335 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:48:07,342 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:48:12,362 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:48:12,364 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:48:12,373 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:48:12,375 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:49:00,668 INFO     -----------------------------------------------------------------
+2023-03-02 01:49:11,951 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:49:11,956 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:49:11,957 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:49:11,962 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:49:16,983 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:49:16,985 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:49:16,995 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:49:16,996 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:50:05,822 INFO     -----------------------------------------------------------------
+2023-03-02 01:50:24,792 INFO     File BTC-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:50:24,798 INFO     File BTC-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:50:24,799 INFO     File ETH-USD-2023-03-01-1m.csv copied from stream to copy directory.
+2023-03-02 01:50:24,804 INFO     File ETH-USD-2023-03-01-1m.csv deleted from stream directory.
+2023-03-02 01:50:29,833 INFO     File BTC-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:50:29,834 INFO     File: BTC-USD-2023-03-01-1m.csv updated for frontend.
+2023-03-02 01:50:29,843 INFO     File ETH-USD-2023-03-01-1m.csv deleted from copy directory
+2023-03-02 01:50:29,844 INFO     File: ETH-USD-2023-03-01-1m.csv updated for frontend.
+>>>>>>> Stashed changes
