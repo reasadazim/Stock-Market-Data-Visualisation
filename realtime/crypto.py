@@ -6,7 +6,6 @@ import csv
 import datetime
 import pandas as pd
 import os
-import shutil
 import time
 import logging
 
@@ -48,7 +47,7 @@ def on_message(ws, message):
 
         if ((int(current_data_date_time[-8:])) > 00000000) and ((int(current_data_date_time[-8:])) < 59998999):
             # Preparing data for inserting in CSV
-            data_filtered.append([data['s'], format_date_time, data['p'], data['q'], data['dc'], data['dd']])
+            data_filtered.append([data['s'], format_date_time, data['p']])
 
         # current_data_date_time[-8:] shows seconds + milliseconds
         if (int(current_data_date_time[-8:])) > 59998999:
@@ -78,7 +77,7 @@ def write_data_to_csv(one_min_data):
         # Write data in csv file
         f = open('stream/' + file_name, "a", encoding='UTF8', newline='')
         writer = csv.writer(f)
-        writer.writerow([data[0], data[1], data[2], data[3], data[4], data[5]])
+        writer.writerow([data[1], data[2]])
         # f.write(data_filtered  +  "\n" )
         f.close()
 
@@ -87,29 +86,9 @@ def write_data_to_csv(one_min_data):
     # Take a break
     time.sleep(5)
 
-    # *********** Move stream data files to copy directory ***********
-
-    # Get the list of all files and directories
-    path = "stream/"
-    dir_list = os.listdir(path)
-
-    for file_name in dir_list:
-        # Copy the CSV file for data processing (stream to OHLC)
-        logging.info("File " + file_name + " copied from stream to copy directory.")
-        shutil.copy('stream/' + file_name, 'copy/' + file_name)
-
-        # Remove existing stream data CSV file so that it can store new data
-        logging.info("File " + file_name + " deleted from stream directory.")
-        os.remove('stream/' + file_name)
-
-    # *********** END Move stream data files to copy directory ***********
-
-    # Take a break
-    time.sleep(5)
-
     # ********* Resample data and store it in data directory for frontend chart **************
     # Get the list of all files and directories
-    path = "copy/"
+    path = "stream/"
     dir_list = os.listdir(path)
 
     for file_name in dir_list:
@@ -127,22 +106,21 @@ def write_data_to_csv(one_min_data):
             logging.info("The new directory ../data/1m/" + dir_name + " is created!")
 
         # Convert
-        df = pd.read_csv('copy/' + file_name, names=['ticker', 'date', 'price', 'quantity', 'change', 'difference'], index_col=1, parse_dates=True, header=None)
+        df = pd.read_csv('stream/' + file_name, names=['date', 'price'], index_col=0, parse_dates=True, header=None)
         df = pd.DataFrame(df)
-        data = df['price'].resample('1min').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'})
-        # print(df)
+        data = df['price'].resample('1min').ohlc()
 
-        # Remove existing resample data CSV file so that it can store new data
-        path = 'copy/' + file_name
+        # Create resample data CSV file in data directory and remove existing stream files from stream directory
+        path = 'stream/' + file_name
         is_exist = os.path.exists(path)
         if is_exist:
-            # Remove processed files from copy directory
-            os.remove('copy/' + file_name)
-            logging.info("File " + file_name + " deleted from copy directory")
-
-            # Write data in csv file inside data di/rectory
+            # Write data in csv file inside data directory
             data.to_csv('../data/1m/' + dir_name + '/' + file_name, mode='a', header=False)
             logging.info("File: " + file_name + " updated for frontend.")
+
+            # Remove processed files from stream directory
+            os.remove('stream/' + file_name)
+            logging.info("File " + file_name + " deleted from stream directory")
     # ********* END -Resample data and store it in data directory for frontend chart **************
 
 
@@ -165,7 +143,7 @@ def on_open(ws):
 
 
 if __name__ == "__main__":
-    ws = websocket.WebSocketApp("wss://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
+    ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
                                 on_message=on_message,
                                 on_error=on_error,
                                 on_close=on_close)
