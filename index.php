@@ -59,6 +59,23 @@
             text-align: center;
             padding-top: 20vh;
         }
+        .ohlc {
+            position: fixed;
+            width: auto;
+            top: 25px;
+            z-index: 99999;
+            height: 20px;
+            color: hsl(240deg 8% 93%);
+            font-family: 'Roboto';
+            font-size: 12px;
+            display: inline-flex;
+            visibility:hidden;
+        }
+        .o, .h, .l, .c{
+            padding-left:10px;
+            padding-right:10px;
+        }
+
     </style>
 </head>
 
@@ -73,6 +90,12 @@
             <option value="ETH-USD">ETH-USD</option>
         </select>
         <!-- <input class="load_chart" type="submit"> -->
+    </div>
+    <div class="ohlc">
+        <div class="o">O: <span></span></div>
+        <div class="h">H: <span></span></div>
+        <div class="l">L: <span></span></div>
+        <div class="c">C: <span></span></div>
     </div>
 
 
@@ -377,6 +400,32 @@
                 mainSeries.setData(candleStickData);
                 // console.log(candleStickData);
 
+
+                
+                // Show OHLC on hover candlestick
+                $('.ohlc').css('visibility','hidden'); //by default hide OHLC
+
+                chart.subscribeCrosshairMove((param) => {
+                    param.seriesData.forEach(myFunction);
+                    console.log(param.seriesData);
+                    function myFunction(item) {
+                        if(item.open!=undefined){
+                            
+                            // $('.ohlc').css('visibility','visible');
+                            // $('.o span').text(item.open);
+                            // $('.h span').text(item.high);
+                            // $('.l span').text(item.low);
+                            // $('.c span').text(item.close);
+                        }else{
+                            $('.ohlc').css('visibility','hidden');
+                        }
+                    }
+
+                });
+
+
+
+
                 // Function to update LIVE data
                 function updateChartData(liveData){
                     // Update live data
@@ -420,6 +469,9 @@
                 }, 60000);
 
                 
+
+
+
                 // END - Function to update LIVE data
 
                 // Changing the Candlestick colors

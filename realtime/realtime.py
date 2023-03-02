@@ -46,12 +46,12 @@ def on_message(ws, message):
 
         current_data_date_time = convert_timestamp_to_date_time.strftime('%Y-%m-%d %H:%M:%S%f')
 
-        if ((int(current_data_date_time[-8:])) > 00000000) and ((int(current_data_date_time[-8:])) < 59990000):
+        if ((int(current_data_date_time[-8:])) > 00000000) and ((int(current_data_date_time[-8:])) < 59998999):
             # Preparing data for inserting in CSV
-            data_filtered.append([data['s'], data['p'], format_date_time])
+            data_filtered.append([data['s'], format_date_time, data['p'], data['q'], data['dc'], data['dd']])
 
         # current_data_date_time[-8:] shows seconds + milliseconds
-        if (int(current_data_date_time[-8:])) > 59990000:
+        if (int(current_data_date_time[-8:])) > 59998999:
             print("Running...")
             # ensure this data write function invokes 1 time after the end of the seconds
             # since we are dealing with milliseconds the function may be called so many times
@@ -78,7 +78,7 @@ def write_data_to_csv(one_min_data):
         # Write data in csv file
         f = open('stream/' + file_name, "a", encoding='UTF8', newline='')
         writer = csv.writer(f)
-        writer.writerow([data[1], data[2]])
+        writer.writerow([data[0], data[1], data[2], data[3], data[4], data[5]])
         # f.write(data_filtered  +  "\n" )
         f.close()
 
@@ -127,7 +127,7 @@ def write_data_to_csv(one_min_data):
             logging.info("The new directory ../data/1m/" + dir_name + " is created!")
 
         # Convert
-        df = pd.read_csv('copy/' + file_name, names=['price', 'date'], index_col=1, parse_dates=True, header=None)
+        df = pd.read_csv('copy/' + file_name, names=['ticker', 'date', 'price', 'quantity', 'change', 'difference'], index_col=1, parse_dates=True, header=None)
         df = pd.DataFrame(df)
         data = df['price'].resample('1min').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'})
         # print(df)
@@ -154,10 +154,6 @@ def on_error(ws, error):
 # On close print message
 def on_close(ws):
     logging.info("### closed ###")
-    ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
-                                on_message=on_message,
-                                on_error=on_error,
-                                on_close=on_close)
 
 
 # Connect to eodhistoricaldata LIVE data stream
@@ -169,7 +165,7 @@ def on_open(ws):
 
 
 if __name__ == "__main__":
-    ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
+    ws = websocket.WebSocketApp("wss://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
                                 on_message=on_message,
                                 on_error=on_error,
                                 on_close=on_close)
