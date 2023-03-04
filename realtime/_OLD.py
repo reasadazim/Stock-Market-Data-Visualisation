@@ -27,18 +27,17 @@ logging.basicConfig(
 fire = 0
 # Variable to store 1 minute stream data
 data_filtered = []
-previous_minute = 0
 
 
 def on_message(ws, message):
     # Including global variables
-    global data_filtered, fire, previous_minute
+    global data_filtered, fire
 
     # Convert data into json
     data = json.loads(message)
 
     # Convert timestamp to date and time
-    if len(data) > 2:  # avoid other messages except data stream
+    if len(data) == 6:  # avoid other messages except data stream
 
         convert_timestamp_to_date_time = pd.to_datetime(data["t"], unit='ms')
 
@@ -46,29 +45,13 @@ def on_message(ws, message):
 
         current_data_date_time = convert_timestamp_to_date_time.strftime('%Y-%m-%d %H:%M:%S%f')
 
-        current_minute = convert_timestamp_to_date_time.strftime('%Y-%m-%d %H:%M:%S')
+        if ((int(current_data_date_time[-8:])) > 00000000) and ((int(current_data_date_time[-8:])) < 59998999):
+            # Preparing data for inserting in CSV (1 minute data queue)
+            data_filtered.append([data['s'], format_date_time, data['p']])
 
-        # If previous minute is not set
-        if previous_minute == 0:
-            previous_minute = int(current_minute[-5:16])
-
-        # If minute changed store data in CSV
-        if previous_minute < int(current_minute[-5:16]):
+        # current_data_date_time[-8:] shows seconds + milliseconds
+        if (int(current_data_date_time[-8:])) > 59998999:
             print("Running...")
-            previous_minute = int(current_minute[-5:16])
-            # ensure this data write function invokes 1 time after the end of the seconds
-            # since we are dealing with milliseconds the function may be called so many times
-            # to reduce this phenomenon, we are using a counter variable 'fire'
-            if fire == 0:
-                one_min_data = data_filtered
-                data_filtered = []
-                # Invoke data write to csv function
-                write_data_to_csv(one_min_data)
-                fire = 1
-        # If minute changed store data in CSV (for 59 to next hours 00 minute)
-        elif (previous_minute == 59) and (int(current_minute[-5:16]) == 00):
-            print("Running...")
-            previous_minute = int(current_minute[-5:16])
             # ensure this data write function invokes 1 time after the end of the seconds
             # since we are dealing with milliseconds the function may be called so many times
             # to reduce this phenomenon, we are using a counter variable 'fire'
@@ -81,16 +64,10 @@ def on_message(ws, message):
         else:
             fire = 0
 
-        # Store data in a 1 minute que
-        # if ((int(current_data_date_time[-8:])) > 00000000) and ((int(current_data_date_time[-8:])) < 59990000):
-        if previous_minute == int(current_minute[-5:16]):
-            # Preparing data for inserting in CSV (1 minute data queue)
-            data_filtered.append([data['s'], format_date_time, data['p']])
-
 
 def write_data_to_csv(one_min_data):
     # ********** Write/store 1 minute stream data in CSV file **********
-    logging.info("############################### CRYPTO ###############################")
+    logging.info("-----------------------------------------------------------------")
     for data in one_min_data:
         # Set filename e.g. BTC-USD-2022-12-27-1m.csv
         date = datetime.datetime.utcnow().date()
@@ -107,7 +84,7 @@ def write_data_to_csv(one_min_data):
     # ********** END - Write/store 1 minute stream data in CSV file **********
 
     # Take a break
-    # time.sleep(5)
+    time.sleep(5)
 
     # ********* Resample data and store it in data directory for frontend chart **************
     # Get the list of all files and directories
@@ -129,7 +106,7 @@ def write_data_to_csv(one_min_data):
             logging.info("The new directory ../data/1m/" + dir_name + " is created!")
 
         # Convert
-        df = pd.read_csv('stream/' + file_name, names=['date', 'price'], index_col=0, parse_dates=True, header=None)
+        df = pd.read_csv('stream/' + file_name, names=['date', 'price'], index_col=0, parse_dates=True, header=None).fillna(0)
         df = pd.DataFrame(df)
         data = df['price'].resample('1min').ohlc()
 
@@ -150,42 +127,27 @@ def write_data_to_csv(one_min_data):
 # Print error if any
 def on_error(ws, error):
     logging.info(error)
-    # If connection is closed due to error, reconnect
-    while not ws.keep_running:
-        connect_websocket()
-        time.sleep(3)
 
 
 # On close print message
 def on_close(ws):
-    logging.info("### Closed ###")
-    # If connection is closed, reconnect
-    while not ws.keep_running:
-        connect_websocket()
-        time.sleep(3)
+    logging.info("### closed ###")
 
 
 # Connect to eodhistoricaldata LIVE data stream
 def on_open(ws):
     def run(*args):
-        ws.send('{"action": "subscribe", "symbols": "ETH-USD, BTC-USD"}')
+        ws.send('{"action": "subscribe", "symbols": "BTC-USD, ETH-USD"}')
 
     thread.start_new_thread(run, ())
 
 
-def connect_websocket():
+if __name__ == "__main__":
     ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
                                 on_message=on_message,
                                 on_error=on_error,
                                 on_close=on_close)
-
     ws.on_open = on_open
-    ws.on_close = on_close
-    ws.on_error = on_error
 
     # Keep alive socket
     ws.run_forever()
-
-
-if __name__ == "__main__":
-    connect_websocket()

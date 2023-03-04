@@ -120,6 +120,14 @@
         <select name="crypto" id="crypto">
             <option value="BTC-USD" selcted>BTC-USD</option>
             <option value="ETH-USD">ETH-USD</option>
+            <option value="AAPL">AAPL</option>
+            <option value="MSFT">MSFT</option>
+            <option value="TSLA">TSLA</option>
+            <option value="SPX">SPX</option>
+            <option value="IXIC">IXIC</option>
+            <option value="FTSE">FTSE</option>
+            <option value="DJI">DJI</option>
+            <option value="NDX">NDX</option>
         </select>
         <select name="price_scale" id="price_scale">
             <option value="Normal">Normal</option>
@@ -278,7 +286,7 @@
                 })
                 .then(function(response) {
                     // handle success
-                    // console.log(response.request.responseURL);
+                    console.log(response.request.responseURL);
                     // console.log(response.data);
                     setData(response.data); //set response dataz
                     showChart(); //show the candlestick chart
@@ -482,6 +490,19 @@
                 }
                 
 
+                var volumeSeries = chart.addHistogramSeries({
+                                    color: '#26a69a',
+                                    priceFormat: {
+                                        type: 'volume',
+                                    },
+                                    priceScaleId: '',
+                                    scaleMargins: {
+                                        top: 0.8,
+                                        bottom: 0,
+                                    },
+                                });
+
+
 
                 setInterval(() => {
 
@@ -499,15 +520,17 @@
 
                             // Update live data
                             updateChartData(Object.assign({}, response.data));
+                            chart.resize(window.innerWidth, window.innerHeight);
                         })
                         .catch(function(error) {
                             // handle error
                             console.log(error);
                         })
                         .then(function() {
-
+                           
                         });
-                }, 60000);
+                        
+                }, 1000);
                 // END - Function to update LIVE data
 
 
