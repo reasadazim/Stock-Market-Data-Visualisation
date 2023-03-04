@@ -75,7 +75,7 @@
             <option value="BCOMCO.INDX">UKOIL</option>
             <option value="BCOMGC.INDX">GOLD</option>
         </select>
-        <input class="load_chart" type="submit">
+        <!-- <input class="load_chart" type="submit"> -->
     </div>
 
 
@@ -123,7 +123,7 @@
                     loadChart(start_date, end_date, 'NDX.INDX'); 
 
 
-            $(".load_chart").click(function() {
+            $("#crypto").click(function() {
 
                 // Clear all setInterval function
                     for(i=0; i<100; i++)
@@ -202,7 +202,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock%20Market%20Data%20Visualisation';
+            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
 
             crypto = $('#crypto').find(":selected").val();
 
@@ -338,11 +338,29 @@
                     },
                 });
 
+
+
+
+                const lineDatax = generateCandlestickData().map((datapoint) => ({
+                    time: datapoint.time,
+                    open: datapoint.open,
+                    high: datapoint.high,
+                    low: datapoint.low,
+                    close: datapoint.close,
+                }));
+
+                const lineDatay = generateCandlestickData().map((datapoint) => ({
+                    time: datapoint.time,
+                    value: datapoint.volume,
+                }));
+
+
+
                 // Generate sample data to use within a candlestick series
-                const candleStickData = generateCandlestickData().map((datapoint) => {
+                const candleStickData = lineDatax.map((datapoint) => {
                     // map function is changing the color for the individual
                     // candlestick points that close above 205
-                    if (datapoint.close < 205) return datapoint;
+                    // if (datapoint.close < 205) return datapoint;
                     // we are adding 'color' and 'wickColor' properties to the datapoint.
                     // Using spread syntax: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#spread_in_object_literals
                     return {...datapoint,
@@ -351,7 +369,8 @@
                     };
                 });
 
-                
+
+
 
                 // Convert the candlestick data for use with a line series
                 const lineData = candleStickData.map((datapoint) => ({
@@ -393,7 +412,28 @@
                     areaSeries.update(area);
                 }
                 
+                const volumeSeries = chart.addHistogramSeries({
+                    color: '#26a69a',
+                    priceFormat: {
+                        type: 'volume',
+                    },
+                    priceScaleId: '', // set as an overlay by setting a blank priceScaleId
+                    // set the positioning of the volume series
+                    scaleMargins: {
+                        top: 0.95, // highest point of the series will be 70% away from the top
+                        bottom: 0,
+                    },
+                });
+                volumeSeries.priceScale().applyOptions({
+                    scaleMargins: {
+                        top: 0.95, // highest point of the series will be 70% away from the top
+                        bottom: 0,
+                    },
+                });
 
+
+
+                volumeSeries.setData(lineDatay);
 
                 setInterval(() => {
 
@@ -407,7 +447,7 @@
                         .then(function(response) {
                             // handle success
                             // console.log(response.request.responseURL);
-                            console.log(Object.assign({}, response.data));
+                            // console.log(Object.assign({}, response.data));
 
                             // Update live data
                             updateChartData(Object.assign({}, response.data));
@@ -431,7 +471,7 @@
                     wickDownColor: "rgb(225, 50, 85)",
                     downColor: "rgb(225, 50, 85)",
                     borderVisible: false,
-                });
+                });                
 
                 // Adjust the options for the priceScale of the mainSeries
                 mainSeries.priceScale().applyOptions({
