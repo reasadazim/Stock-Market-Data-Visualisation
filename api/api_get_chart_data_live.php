@@ -57,12 +57,31 @@ function csvToJson($fname) {
         $filtered ['low'] = (float)$data[3];
         $filtered ['close'] = (float)$data[4];
     }else{
+
+
+        if(is_null($data[7])){
+            // If volume is empty
+            $volume = 0;
+        }else{
+            $volume = $data[7];
+        }
+
+        // Determine volume bar color
+        // if the closing price is greater than the open price then GREEN else RED
+        if ( ((float)$data[6]) > ((float)$data[3]) ){
+            $color = "rgb(54, 217, 122)";
+        }else{
+            $color = "rgb(225, 50, 85)";
+        }
+
         // Filtered cell data 
         $filtered ['time'] = (int)$data[0];
         $filtered ['open'] = (float)$data[3];
         $filtered ['high'] = (float)$data[4];
         $filtered ['low'] = (float)$data[5];
         $filtered ['close'] = (float)$data[6];
+        $filtered ['volume'] = $volume;
+        $filtered ['color'] = $color;
     }
 
 
