@@ -43,14 +43,15 @@
         $to = $end_date_time_local->getTimestamp();
         
         // Setting API URL
-        $remote_file_name = "https://eodhistoricaldata.com/api/intraday/".$crypto."?api_token=63e9be52e52de8.36159257&interval=1m&from=".$from."&to=".$to."";
+        $remote_file_name = "https://eodhistoricaldata.com/api/intraday/".$crypto."?api_token=63e9be52e52de8.36159257&from=".$from."&to=".$to."";
         // echo $remote_file_name."<br>";
     }
 
-
+    print_r($remote_file_name);
 
     //setting file name to save
     $local_csv_file_name = "../data/".$crypto."/".$crypto."-data.csv"; 
+
     
     //Delete the existing file so that we can store new file.
     unlink($local_csv_file_name); 

@@ -50,12 +50,30 @@ function csvToJson($fname) {
         $date_format = str_replace("/","-",$data[0]); //remove / and replace with -
         $date = new DateTime($date_format." 23:59:59"); // convert date to timestamp
         $timestamp = $date->getTimestamp();
+
+        if(is_null($data[7])){
+            // If volume is empty
+            $volume = 0;
+        }else{
+            $volume = $data[7];
+        }
+
+        // Determine volume bar color
+        // if the closing price is greater than the open price then GREEN else RED
+        if ( ((float)$data[4]) > ((float)$data[1]) ){
+            $color = "#36d97aa6";
+        }else{
+            $color = "#e13255ab";
+        }
+
         // Filtered cell data 
         $filtered ['time'] = (int)$timestamp;
         $filtered ['open'] = (float)$data[1];
         $filtered ['high'] = (float)$data[2];
         $filtered ['low'] = (float)$data[3];
         $filtered ['close'] = (float)$data[4];
+        $filtered ['volume'] = $volume;
+        $filtered ['color'] = $color;
     }else{
 
 
@@ -69,9 +87,9 @@ function csvToJson($fname) {
         // Determine volume bar color
         // if the closing price is greater than the open price then GREEN else RED
         if ( ((float)$data[6]) > ((float)$data[3]) ){
-            $color = "rgb(54, 217, 122)";
+            $color = "#36d97aa6";
         }else{
-            $color = "rgb(225, 50, 85)";
+            $color = "#e13255ab";
         }
 
         // Filtered cell data 

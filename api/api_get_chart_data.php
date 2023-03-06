@@ -10,7 +10,7 @@ $start_date = $_GET["startDate"];
 $end_date = $_GET["endDate"];
 $crypto = $_GET["crypto"];
  
-
+ 
 // php function to convert csv to json format
 function csvToJson($fname) {
     // open csv file
@@ -46,6 +46,7 @@ function csvToJson($fname) {
 // ************* Get data from file and output as json *************
 
     $local_csv_file_name = "../data/".$crypto."/".$crypto."-data.csv"; 
+
 
     if(file_exists($local_csv_file_name)){
 
@@ -114,9 +115,9 @@ function csvToJson($fname) {
                         // Determine volume bar color
                         // if the closing price is greater than the open price then GREEN else RED
                         if ( ((float)$datum['Close']) > ((float)$datum['Open']) ){
-                            $color = "rgb(54, 217, 122)";
+                            $color = "#36d97aa6";
                         }else{
-                            $color = "rgb(225, 50, 85)";
+                            $color = "#e13255ab";
                         }
 
                         $filtered_data[] = array(

@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             padding: 0;
@@ -59,11 +61,63 @@
             text-align: center;
             padding-top: 20vh;
         }
+        .ohlc {
+            position: fixed;
+            width: auto;
+            top: 30px;
+            z-index: 99999;
+            height: 20px;
+            color: hsl(240deg 8% 93%);
+            font-family: 'Roboto';
+            font-size: 12px;
+            display: inline-flex;
+            visibility:hidden;
+        }
+        .o{
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        }
+        .h {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        }
+        .l {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        } 
+        .c {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        } 
+        .v {
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:3px;
+        }
+        .tickname, .timescale{
+            padding-left:10px;
+            font-weight:700;
+            font-size:14px;
+        }
+        .timescale{
+            padding-left:10px;
+            padding-right:10px;
+            font-weight:700;
+            font-size:14px;
+        }
+        .tickname:after, .timescale:after{
+            content:"•";
+            margin-left:10px;
+        }
     </style>
 </head>
 
 <body>
-
+ 
 
     <div class="date-select">
         <input type="date" class="start_date">
@@ -75,8 +129,22 @@
             <option value="BCOMCO.INDX">UKOIL</option>
             <option value="BCOMGC.INDX">GOLD</option>
         </select>
+        <select name="price_scale" id="price_scale">
+            <option value="Normal">Normal</option>
+            <option value="Logarithmic" selected>Logarithmic</option>
+            <option value="Percentage">Percentage</option>
+        </select>
     </div>
 
+    <div class="ohlc">
+        <div class="tickname">BTC-USD</div>
+        <div class="timescale">1</div>
+        <div class="o"><strong>O:</strong> <span></span></div>
+        <div class="h"><strong>H:</strong> <span></span></div>
+        <div class="l"><strong>L:</strong> <span></span></div>
+        <div class="c"><strong>C:</strong> <span></span></div>
+        <div class="v"><strong>V:</strong> <span></span></div>
+    </div>
 
     <div class="loader">
         <img src="./assets/img/loader.webp" alt="">
@@ -95,6 +163,8 @@
         }, 500);
 
         $(document).ready(function() {
+                     // Show the crypto value on indicator
+                    $('.tickname').text($('#crypto').find(":selected").text());
 
                     // By Default Load Last Days Data
                     <?php date_default_timezone_set('UTC'); ?>
@@ -123,6 +193,8 @@
 
 
             $("#crypto").change(function() {
+                // Show the crypto value on indicator
+                $('.tickname').text($('#crypto').find(":selected").text());
 
                 // Clear all setInterval function
                     for(i=0; i<100; i++)
@@ -329,6 +401,12 @@
                             labelBackgroundColor: "#9B7DFF",
                         },
 
+                        vertLine: {
+                            color: "#9B7DFF",
+                            labelBackgroundColor: "#9B7DFF",
+                        },
+
+
                         // Horizontal crosshair line (showing Price in Label)
                         horzLine: {
                             color: "#9B7DFF",
@@ -370,23 +448,23 @@
                 
 
                 // Convert the candlestick data for use with a line series
-                const lineData = candleStickData.map((datapoint) => ({
-                    time: datapoint.time,
-                    value: (datapoint.close + datapoint.open) / 2,
-                }));
+                // const lineData = candleStickData.map((datapoint) => ({
+                //     time: datapoint.time,
+                //     value: (datapoint.close + datapoint.open) / 2,
+                // }));
 
                 // Add an area series to the chart,
                 // Adding this before we add the candlestick chart
                 // so that it will appear beneath the candlesticks
-                const areaSeries = chart.addAreaSeries({
-                    lastValueVisible: false, // hide the last value marker for this series
-                    crosshairMarkerVisible: false, // hide the crosshair marker for this series
-                    lineColor: "transparent", // hide the line
-                    topColor: "rgba(56, 33, 110,0.6)",
-                    bottomColor: "rgba(56, 33, 110, 0.1)",
-                });
-                // Set the data for the Area Series
-                areaSeries.setData(lineData);
+                // const areaSeries = chart.addAreaSeries({
+                //     lastValueVisible: false, // hide the last value marker for this series
+                //     crosshairMarkerVisible: false, // hide the crosshair marker for this series
+                //     lineColor: "transparent", // hide the line
+                //     topColor: "rgba(56, 33, 110,0.6)",
+                //     bottomColor: "rgba(56, 33, 110, 0.1)",
+                // });
+                // // Set the data for the Area Series
+                // areaSeries.setData(lineData);
 
                 // Create the Main Series (Candlesticks)
                 const mainSeries = chart.addCandlestickSeries();
@@ -425,7 +503,33 @@
 
 
 
+                // Show OHLC on hover candlestick
+                $('.ohlc').css('visibility','hidden'); //by default hide OHLC
 
+                chart.subscribeCrosshairMove((param) => {
+                    param.seriesData.forEach(myFunction);
+                    function myFunction(item) {
+                        console.log(item);
+                        if(item.open!=''){
+                            $('.ohlc').css('visibility','visible');
+                            $('.o span').text(item.open);
+                            $('.h span').text(item.high);
+                            $('.l span').text(item.low);
+                            $('.c span').text(item.close);
+                            // $('.v span').text(item.value);
+                            if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
+                                // For EOD chart
+                                $('.v span').html('<i class="fa fa-info-circle" aria-hidden="true"></i> Volume data not available!');
+                            }else{
+                                // For intra day chart
+                                $('.v span').text(item.value);
+                            }
+                        }else{
+                            $('.ohlc').css('visibility','hidden');
+                        }
+                    }
+
+                });
 
 
 
@@ -446,6 +550,7 @@
                         "color": liveData['color'],
                     };
 
+                    console.log(canldeStick);
                     console.log(volumeBar);
 
 
@@ -491,6 +596,54 @@
 
                 
                 // END - Function to update LIVE data
+
+
+
+
+
+
+                // on change price scale input change price scale
+                $(document).ready(function() {
+                    $("#price_scale").change(function() {
+
+                        if ($('#price_scale').find(":selected").val() == 'Percentage') {
+                            chart.priceScale("right").applyOptions({
+                                borderColor: "#71649C",
+                                scaleMargins: {
+                                            top: 0.1,
+                                            bottom: 0.1,
+                                },
+                                mode: LightweightCharts.PriceScaleMode.Percentage,
+                                borderColor: 'rgba(197, 203, 206, 0.4)',
+                            });
+                        }
+                        if ($('#price_scale').find(":selected").val() == 'Logarithmic') {
+                            chart.priceScale("right").applyOptions({
+                                borderColor: "#71649C",
+                                scaleMargins: {
+                                            top: 0.1,
+                                            bottom: 0.1,
+                                },
+                                mode: LightweightCharts.PriceScaleMode.Logarithmic,
+                                borderColor: 'rgba(197, 203, 206, 0.4)',
+                            });
+                        }
+                        if ($('#price_scale').find(":selected").val() == 'Normal') {
+                            chart.priceScale("right").applyOptions({
+                                borderColor: "#71649C",
+                                scaleMargins: {
+                                            top: 0.1,
+                                            bottom: 0.1,
+                                },
+                                mode: LightweightCharts.PriceScaleMode.Normal,
+                                borderColor: 'rgba(197, 203, 206, 0.4)',
+                            });
+                        }
+                    });
+                });
+                // END - on change price scale input change price scale
+
+
 
                 // Changing the Candlestick colors
                 mainSeries.applyOptions({
