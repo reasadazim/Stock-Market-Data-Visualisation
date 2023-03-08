@@ -36,72 +36,36 @@ function csvToJson($fname) {
 
 // ************* Get data from file and output as json *************
 
-    $local_csv_file_name_live = "../data/".$crypto."/".$crypto."-live-data.csv"; 
+$local_csv_file_name_live = "../data/realtime/1m/".$crypto."/".$crypto."-".date('Y-m-d')."-1m.csv";
 
     if(file_exists($local_csv_file_name_live)){
         $data = csvToJson($local_csv_file_name_live);
     }
 
 
- 
-    
+    // if(is_null($data[8])){
+    //     // If volume is empty
+    //     $volume = 0;
+    // }else{
+    //     $volume = $data[8];
+    // }
 
-    if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
-        $date_format = str_replace("/","-",$data[0]); //remove / and replace with -
-        $date = new DateTime($date_format." 23:59:59"); // convert date to timestamp
-        $timestamp = $date->getTimestamp();
+    // // Determine volume bar color
+    // // if the closing price is greater than the open price then GREEN else RED
+    // if ( ((float)$data[7]) > ((float)$data[4]) ){
+    //     $color = "#36d97aa6";
+    // }else{
+    //     $color = "#e13255ab";
+    // }
 
-        if(is_null($data[7])){
-            // If volume is empty
-            $volume = 0;
-        }else{
-            $volume = $data[7];
-        }
-
-        // Determine volume bar color
-        // if the closing price is greater than the open price then GREEN else RED
-        if ( ((float)$data[4]) > ((float)$data[1]) ){
-            $color = "#36d97aa6";
-        }else{
-            $color = "#e13255ab";
-        }
-
-        // Filtered cell data 
-        $filtered ['time'] = (int)$timestamp;
-        $filtered ['open'] = (float)$data[1];
-        $filtered ['high'] = (float)$data[2];
-        $filtered ['low'] = (float)$data[3];
-        $filtered ['close'] = (float)$data[4];
-        $filtered ['volume'] = $volume;
-        $filtered ['color'] = $color;
-    }else{
-
-
-        if(is_null($data[7])){
-            // If volume is empty
-            $volume = 0;
-        }else{
-            $volume = $data[7];
-        }
-
-        // Determine volume bar color
-        // if the closing price is greater than the open price then GREEN else RED
-        if ( ((float)$data[6]) > ((float)$data[3]) ){
-            $color = "#36d97aa6";
-        }else{
-            $color = "#e13255ab";
-        }
-
-        // Filtered cell data 
-        $filtered ['time'] = (int)$data[0];
-        $filtered ['open'] = (float)$data[3];
-        $filtered ['high'] = (float)$data[4];
-        $filtered ['low'] = (float)$data[5];
-        $filtered ['close'] = (float)$data[6];
-        $filtered ['volume'] = $volume;
-        $filtered ['color'] = $color;
-    }
-
+    // Filtered cell data 
+    $filtered ['time'] = strtotime($data[0]);
+    $filtered ['open'] = (float)$data[1];
+    $filtered ['high'] = (float)$data[2];
+    $filtered ['low'] = (float)$data[3];
+    $filtered ['close'] = (float)$data[4];
+    // $filtered ['volume'] = $volume;
+    // $filtered ['color'] = $color;
 
 
 // ************* END - Get data from file and output as json *************

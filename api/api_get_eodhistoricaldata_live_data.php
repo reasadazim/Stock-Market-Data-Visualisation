@@ -10,10 +10,11 @@ date_default_timezone_set('UTC');
     $crypto = $_GET["crypto"];
 
 
-    $remote_file_name = "https://eodhistoricaldata.com/api/real-time/".$crypto."?api_token=63e9be52e52de8.36159257&fmt=json&filter=timestamp,gmtoffset,open,high,low,close,volume";
-    var_dump($remote_file_name);
+    $remote_file_name = "https://eodhistoricaldata.com/api/real-time/".$crypto."?api_token=63e9be52e52de8.36159257&fmt=json";
+    // var_dump($remote_file_name);
+    
     //setting file name to save
-    $local_csv_file_name_live = "../data/".$crypto."/".$crypto."-live-data.csv"; 
+    $local_csv_file_name_live = "../data/historical/".$crypto."/".$crypto."-live-data.csv"; 
     
 
     // Call API
@@ -27,11 +28,9 @@ date_default_timezone_set('UTC');
 
     $response = json_decode($data, true); //convert json data type to array
  
-    $date = date("Y-m-d h:i:s", (int)$response[0]); // convert timestamp to date & time
+    $date = date("Y-m-d h:i:s", (int)$response['timestamp']); // convert timestamp to date & time
 
-    array_splice( $response, 2, 0, $date); //convert date time from the timestamp and push into thea array
-
-
+    array_splice($response, 2, 0, $date); //convert date time from the timestamp and push into thea array
 
 
     // php function to convert csv to json format, we are reading last row data from CSV to update the candlestick chart
@@ -60,35 +59,27 @@ date_default_timezone_set('UTC');
 
     // If timestamps are same then do nothing, duplicate timestamp breaks the chart
 
-    if($data[0]==$response[0]){
-
+    if(is_null($data[0])){
+         // store data in csv
+        $handle = fopen($local_csv_file_name_live, "a");
+        fputcsv($handle, ['code','timestamp','datetime','gmtoffset','open','high','low','close','volume','previousClose','change','change_p']);
+        fputcsv($handle, $response);
+        fclose($handle);
     }else{
-        if(($crypto == 'US2Y.INDX')||($crypto == 'BCOMCO.INDX')||$crypto == 'BCOMGC.INDX'){
-            if($response[0]!="NA"){//if data available
-                if($data[0]==(date("Y-m-d", ($response[0])))){
+        if($data[1]==$response['timestamp']){//if data is same then do not insert in CSV
 
-                }else{
-                    // Filtering data for EOD data
-                    $filtered[] = substr($response[2], 0, -9);
-                    $filtered[] = $response[3];
-                    $filtered[] = $response[4];
-                    $filtered[] = $response[5];
-                    $filtered[] = $response[6];
-                    $filtered[] = $response[6];
-                    $filtered[] = $response[7];
-    
-                    $handle = fopen($local_csv_file_name_live, "a");
-                    fputcsv($handle, $filtered); # $filtered is an array of strings (array|string[])
-                    fclose($handle);
-                }
-            }
         }else{
-            
-            $handle = fopen($local_csv_file_name_live, "a");
-            fputcsv($handle, $response); # $response is an array of strings (array|string[])
-            fclose($handle);
+    
+            if($response['timestamp']!="NA"){//if data available
+                    // store data in csv
+                    $handle = fopen($local_csv_file_name_live, "a");
+                    fputcsv($handle, $response); 
+                    fclose($handle);
+            }
+    
         }
     }
+
 
 
 // ********************** END - Get the API response and store data in CSV file **********************

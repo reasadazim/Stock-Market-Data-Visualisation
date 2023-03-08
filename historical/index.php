@@ -14,8 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             padding: 0;
@@ -47,11 +45,17 @@
             opacity: 1;
         }
         
-        .date-select {
+        .select-options {
+            display: inline-flex;
             position: absolute;
             z-index: 9;
+            margin-top:10px;
+            margin-left:10px;
+            color:white;
+            font-family: Roboto;
+            font-size:12px;
         }
-        
+
         .loader {
             position: fixed;
             z-index: 9;
@@ -64,7 +68,7 @@
         .ohlc {
             position: fixed;
             width: auto;
-            top: 30px;
+            top: 40px;
             z-index: 99999;
             height: 20px;
             color: hsl(240deg 8% 93%);
@@ -113,21 +117,42 @@
             content:"•";
             margin-left:10px;
         }
+        #realtime_historical, .start_date, .end_date, #crypto, #price_scale{
+            margin-right:10px;
+        }
+        .start_date, .end_date{
+            margin-left:10px;
+        }
+        .input_lebel{
+            padding-top:3px;
+        }
     </style>
 </head>
 
 <body>
  
 
-    <div class="date-select">
+    <div class="select-options">
+        <select name="realtime_historical" id="realtime_historical">
+            <option value="Realtime">Realtime</option>
+            <option value="Historical" selected>Historical</option>
+        </select>
+        <div class="input_lebel">From</div>
         <input type="date" class="start_date">
+        <div class="input_lebel">to</div>
         <input type="date" class="end_date">
         <select name="crypto" id="crypto">
-            <option value="NDX.INDX" selcted>NASDAQ</option>
-            <option value="SP500NTR.INDX">S&P500</option>
-            <option value="US2Y.INDX">US02Y</option>
-            <option value="BCOMCO.INDX">UKOIL</option>
-            <option value="BCOMGC.INDX">GOLD</option>
+            <option value="AAPL.US" selcted>AAPL</option>
+            <option value="MSFT.US">MSFT</option>
+            <option value="TSLA.US">TSLA</option>
+            <option value="EURUSD.FOREX">EURUSD</option>
+            <option value="BTC-USD.CC">BTC-USD</option>
+            <option value="ETH-USD.CC">ETH-USD</option>
+            <option value="GSPC.INDX">SPX</option>
+            <option value="IXIC.INDX">IXIC</option>
+            <option value="FTSE.INDX">FTSE</option>
+            <option value="DJI.INDX">DJI</option>
+            <option value="NDX.INDX">NDX</option>
         </select>
         <select name="price_scale" id="price_scale">
             <option value="Normal">Normal</option>
@@ -137,8 +162,8 @@
     </div>
 
     <div class="ohlc">
-        <div class="tickname">BTC-USD</div>
-        <div class="timescale">1</div>
+        <div class="tickname"></div>
+        <div class="timescale">5 minutes</div>
         <div class="o"><strong>O:</strong> <span></span></div>
         <div class="h"><strong>H:</strong> <span></span></div>
         <div class="l"><strong>L:</strong> <span></span></div>
@@ -147,7 +172,7 @@
     </div>
 
     <div class="loader">
-        <img src="./assets/img/loader.webp" alt="">
+        <img src="../assets/img/loader.webp" alt="">
     </div>
 
     <div id="container" style="position: absolute; width: 100%; height: 100%">
@@ -192,14 +217,26 @@
                     loadChart(start_date, end_date, 'NDX.INDX'); 
 
 
+            $("#realtime_historical").change(function() {
+                if(($('#realtime_historical').find(":selected").text())=="Realtime"){
+                    window.location.replace("../realtime");
+                }else{
+                    window.location.replace("../historical");
+                }
+            });
+
             $("#crypto").change(function() {
                 // Show the crypto value on indicator
                 $('.tickname').text($('#crypto').find(":selected").text());
 
                 // Clear all setInterval function
-                    for(i=0; i<100; i++)
-                    {
-                        window.clearInterval(i);
+                    // for(i=0; i<100; i++)
+                    // {
+                    //     window.clearInterval(i);
+                    // }
+                    var id = window.setInterval(function() {}, 0);
+                    while (id--) {
+                        window.clearInterval(id);
                     }
                 // END - Clear all setInterval function
 
@@ -233,21 +270,14 @@
                     
                     // I have found that last data date is 3 days old from today. 
                     // e.g. It is 13th February but they provided 10th February's data as last data
-                    if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||(crypto == 'BCOMGC.INDX')){
-                        // For EOD data get last 10 days data 
-                        var start_date = "<?php 
-                            $start_date = date('Y-m-d',strtotime("-600 days")); //get utc date
-                            $start_date = $start_date . " 00:00:00"; //set time to 12 AM
-                            echo $start_date;
-                        ?>";
-                    }else{
-                        // For intra day data
-                        var start_date = "<?php 
-                            $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
-                            $start_date = $start_date . " 00:00:00"; //set time to 12 AM
-                            echo $start_date;
-                        ?>";
-                    }
+ 
+                    // For intra day data
+                    var start_date = "<?php 
+                        $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
+                        $start_date = $start_date . " 00:00:00"; //set time to 12 AM
+                        echo $start_date;
+                    ?>";
+                    
 
                     // Today's date + 5 days so that we do not miss any data.
                     var end_date = "<?php 
@@ -277,7 +307,7 @@
 
             crypto = $('#crypto').find(":selected").val();
 
-            axios.get(api_url+'/api/api_get_chart_data.php', {
+            axios.get(api_url+'/api/api_get_chart_histoical_data.php', {
                     params: {
                         startDate: startDate,
                         endDate: endDate,
@@ -313,14 +343,9 @@
                     return apiResponseDataSet;
                 }
 
-                // Show/hide time in chart
-                if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
-                    // For EOD chart
-                    var showTimeInChart = false;
-                }else{
-                    // For intra day chart
-                    var showTimeInChart = true;
-                }
+                //Show/hide time in chart
+                // var showTimeInChart = false;
+                var showTimeInChart = true;
                     
                 // Create the Lightweight Chart within the container element
                 const chart = LightweightCharts.createChart(
@@ -447,24 +472,24 @@
 
                 
 
-                // Convert the candlestick data for use with a line series
-                // const lineData = candleStickData.map((datapoint) => ({
-                //     time: datapoint.time,
-                //     value: (datapoint.close + datapoint.open) / 2,
-                // }));
+                //Convert the candlestick data for use with a line series
+                const lineData = candleStickData.map((datapoint) => ({
+                    time: datapoint.time,
+                    value: (datapoint.close + datapoint.open) / 2,
+                }));
 
                 // Add an area series to the chart,
                 // Adding this before we add the candlestick chart
                 // so that it will appear beneath the candlesticks
-                // const areaSeries = chart.addAreaSeries({
-                //     lastValueVisible: false, // hide the last value marker for this series
-                //     crosshairMarkerVisible: false, // hide the crosshair marker for this series
-                //     lineColor: "transparent", // hide the line
-                //     topColor: "rgba(56, 33, 110,0.6)",
-                //     bottomColor: "rgba(56, 33, 110, 0.1)",
-                // });
-                // // Set the data for the Area Series
-                // areaSeries.setData(lineData);
+                const areaSeries = chart.addAreaSeries({
+                    lastValueVisible: false, // hide the last value marker for this series
+                    crosshairMarkerVisible: false, // hide the crosshair marker for this series
+                    lineColor: "transparent", // hide the line
+                    topColor: "rgba(56, 33, 110,0.6)",
+                    bottomColor: "rgba(56, 33, 110, 0.1)",
+                });
+                // Set the data for the Area Series
+                areaSeries.setData(lineData);
 
                 // Create the Main Series (Candlesticks)
                 const mainSeries = chart.addCandlestickSeries();
@@ -509,17 +534,16 @@
                 chart.subscribeCrosshairMove((param) => {
                     param.seriesData.forEach(myFunction);
                     function myFunction(item) {
-                        console.log(item);
+                        // console.log(item);
                         if(item.open!=''){
                             $('.ohlc').css('visibility','visible');
                             $('.o span').text(item.open);
                             $('.h span').text(item.high);
                             $('.l span').text(item.low);
                             $('.c span').text(item.close);
-                            // $('.v span').text(item.value);
-                            if((crypto == 'US2Y.INDX')||(crypto == 'BCOMCO.INDX')||crypto == 'BCOMGC.INDX'){
+                            if((item.value == 0)||(item.value == '')){
                                 // For EOD chart
-                                $('.v span').html('<i class="fa fa-info-circle" aria-hidden="true"></i> Volume data not available!');
+                                $('.v span').html('Volume data not available!');
                             }else{
                                 // For intra day chart
                                 $('.v span').text(item.value);
@@ -533,66 +557,66 @@
 
 
 
-                // Function to update LIVE data
-                function updateChartData(liveData){
+                // // Function to update LIVE data
+                // function updateChartData(liveData){
 
-                    var canldeStick = {
-                        "time": liveData['time'],
-                        "open": liveData['open'],
-                        "high": liveData['high'],
-                        "low": liveData['low'],
-                        "close": liveData['close'],
-                    };
+                //     var canldeStick = {
+                //         "time": liveData['time'],
+                //         "open": liveData['open'],
+                //         "high": liveData['high'],
+                //         "low": liveData['low'],
+                //         "close": liveData['close'],
+                //     };
 
-                    var volumeBar = {
-                        "time": liveData['time'],
-                        "value": liveData['volume'],
-                        "color": liveData['color'],
-                    };
+                //     var volumeBar = {
+                //         "time": liveData['time'],
+                //         "value": liveData['volume'],
+                //         "color": liveData['color'],
+                //     };
 
-                    console.log(canldeStick);
-                    console.log(volumeBar);
+                //     // console.log(canldeStick);
+                //     // console.log(volumeBar);
 
 
-                    // Update live data
-                    mainSeries.update(canldeStick);
-                    volumeSeries.update(volumeBar);
-                    // console.log(liveData);
+                //     // Update live data
+                //     mainSeries.update(canldeStick);
+                //     volumeSeries.update(volumeBar);
+                //     // console.log(liveData);
 
-                    // Update live data (area, purple color)
-                    var area = {
-                        time: liveData.time,
-                        value: (liveData.close + liveData.open) / 2,
-                    };
-                    areaSeries.update(area);
-                }
+                //     // Update live data (area, purple color)
+                //     var area = {
+                //         time: liveData.time,
+                //         value: (liveData.close + liveData.open) / 2,
+                //     };
+                //     areaSeries.update(area);
+                // }
                 
 
-                setInterval(() => {
+                // setInterval(() => {
 
-                    crypto = $('#crypto').find(":selected").val();
+                //     crypto = $('#crypto').find(":selected").val();
 
-                        axios.get(api_url+'/api/api_get_chart_data_live.php', {
-                            params: {
-                                crypto: crypto
-                            }
-                        })
-                        .then(function(response) {
-                            // handle success
-                            // console.log(response.request.responseURL);
-                            // console.log(Object.assign({}, response.data));
+                //         axios.get(api_url+'/api/api_get_chart_data_live.php', {
+                //             params: {
+                //                 crypto: crypto
+                //             }
+                //         })
+                //         .then(function(response) {
+                //             // handle success
+                //             console.log(response.request.responseURL);
+                //             // console.log(Object.assign({}, response.data));
 
-                            // Update live data
-                            updateChartData(Object.assign({}, response.data));
-                        })
-                        .catch(function(error) {
-                            // handle error
-                            console.log(error);
-                        })
-                        .then(function() {
+                //             // Update live data
+                //             updateChartData(Object.assign({}, response.data));
+                //         })
+                //         .catch(function(error) {
+                //             // handle error
+                //             console.log(error);
+                //         })
+                //         .then(function() {
 
-                        });
-                }, 5000);
+                //         });
+                // }, 5000);
 
                 
                 // END - Function to update LIVE data
