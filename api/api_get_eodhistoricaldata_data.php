@@ -13,7 +13,7 @@
 // ********************** Get the historical data from API response and store data in CSV file **********************
 
     // Setting API URL
-    $remote_file_name = "https://eodhistoricaldata.com/api/intraday/".$crypto."?api_token=63e9be52e52de8.36159257";
+    $remote_file_name = "https://eodhistoricaldata.com/api/intraday/".$crypto."?api_token=90j6w31n68ka2.91057371";
     // echo $remote_file_name."<br>";
 
     //setting file name to save

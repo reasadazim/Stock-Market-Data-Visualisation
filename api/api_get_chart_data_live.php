@@ -33,7 +33,6 @@ function csvToJson($fname) {
 
 
 
-
 // ************* Get data from file and output as json *************
 
 $local_csv_file_name_live = "../data/realtime/1m/".$crypto."/".$crypto."-".date('Y-m-d')."-1m.csv";
@@ -41,7 +40,6 @@ $local_csv_file_name_live = "../data/realtime/1m/".$crypto."/".$crypto."-".date(
     if(file_exists($local_csv_file_name_live)){
         $data = csvToJson($local_csv_file_name_live);
     }
-
 
     // if(is_null($data[8])){
     //     // If volume is empty

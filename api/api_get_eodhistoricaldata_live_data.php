@@ -10,7 +10,7 @@ date_default_timezone_set('UTC');
     $crypto = $_GET["crypto"];
 
 
-    $remote_file_name = "https://eodhistoricaldata.com/api/real-time/".$crypto."?api_token=63e9be52e52de8.36159257&fmt=json";
+    $remote_file_name = "https://eodhistoricaldata.com/api/real-time/".$crypto."?api_token=90j6w31n68ka2.91057371&fmt=json";
     // var_dump($remote_file_name);
     
     //setting file name to save

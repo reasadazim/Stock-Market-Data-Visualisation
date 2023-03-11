@@ -58,7 +58,7 @@
 
         .loader {
             position: fixed;
-            z-index: 9;
+            z-index: 99999;
             background: #000000;
             width: 100%;
             height: 100vh;
@@ -179,13 +179,15 @@
 
     </div>
     <script type="text/javascript">
-        setInterval(() => {
-            if ($('#container').is(':empty')) {
-                $(".loader").show();
-            } else {
-                $(".loader").fadeOut();
-            }
-        }, 500);
+                // Loading Icon
+                setInterval(() => {
+                        if ($('#container').is(':empty')) {
+                            $(".loader").show();
+                        } else {
+                            $(".loader").fadeOut();
+                        }
+                }, 500);
+                // END - Loading Icon
 
         $(document).ready(function() {
                      // Show the crypto value on indicator
@@ -226,6 +228,9 @@
             });
 
             $("#crypto").change(function() {
+
+
+
                 // Show the crypto value on indicator
                 $('.tickname').text($('#crypto').find(":selected").text());
 
@@ -239,6 +244,17 @@
                         window.clearInterval(id);
                     }
                 // END - Clear all setInterval function
+
+
+                // Loading Icon
+                setInterval(() => {
+                        if ($('#container').is(':empty')) {
+                            $(".loader").show();
+                        } else {
+                            $(".loader").fadeOut();
+                        }
+                }, 500);
+                // END - Loading Icon
 
                 if (($('.start_date').val() != '') && ($('.end_date').val() != '') && ($('#crypto').find(":selected").val() != '')) {
 
@@ -273,7 +289,7 @@
  
                     // For intra day data
                     var start_date = "<?php 
-                        $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
+                        $start_date = date('Y-m-d',strtotime("-7 days")); //get utc date
                         $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                         echo $start_date;
                     ?>";
@@ -303,7 +319,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
+            var api_url = 'http://172.105.182.69/stream';
 
             crypto = $('#crypto').find(":selected").val();
 
@@ -317,8 +333,10 @@
                 .then(function(response) {
                     // handle success
                     console.log(response.request.responseURL);
-                    setData(response.data); //set response dataz
-                    showChart(); //show the candlestick chart
+                    setTimeout(() => {
+                        setData(response.data); //set response dataz
+                        showChart(); //show the candlestick chart  
+                    }, 2000);
                 })
                 .catch(function(error) {
                     // handle error

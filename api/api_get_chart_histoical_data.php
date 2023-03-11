@@ -47,13 +47,12 @@ function csvToJson($fname) {
 
     $local_csv_file_name = "../data/historical/".$crypto."/".$crypto."-data.csv"; 
 
-
     if(file_exists($local_csv_file_name)){
 
         $data = csvToJson($local_csv_file_name);
 
             // For Intra day data
-
+            
             foreach($data as $datum){
             
             // Start date to milliseconds
@@ -66,7 +65,7 @@ function csvToJson($fname) {
             $mil_to = new DateTime($date_to);
             $seconds_to = $mil_to->getTimestamp();
         
-
+            
             if(($seconds_from<(int)$datum['Timestamp'])&&($seconds_to>(int)$datum['Timestamp'])){ //check the time is within the time selected time frame
                 if( (float)$datum['Open'] != 0 ){
 
@@ -84,6 +83,8 @@ function csvToJson($fname) {
                     }else{
                         $color = "#e13255ab";
                     }
+
+                   
 
                     $filtered_data[] = array(
                         'time' => (int)$datum['Timestamp'],
@@ -103,7 +104,7 @@ function csvToJson($fname) {
 
     }
 
-
+    
 // ************* END - Get data from file and output as json *************
 
 

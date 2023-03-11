@@ -174,7 +174,7 @@ def on_open(ws):
 
 
 def connect_websocket():
-    ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=63e9be52e52de8.36159257",
+    ws = websocket.WebSocketApp("ws://ws.eodhistoricaldata.com/ws/crypto?api_token=90j6w31n68ka2.91057371",
                                 on_message=on_message,
                                 on_error=on_error,
                                 on_close=on_close)

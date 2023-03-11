@@ -59,7 +59,7 @@
         
         .loader {
             position: fixed;
-            z-index: 9;
+            z-index: 99999;
             background: #000000;
             width: 100%;
             height: 100vh;
@@ -201,13 +201,15 @@
 
     </div>
     <script type="text/javascript">
-        setInterval(() => {
-            if ($('#container').is(':empty')) {
-                $(".loader").show();
-            } else {
-                $(".loader").fadeOut();
-            }
-        }, 500);
+                // Loading Icon
+                setInterval(() => {
+                        if ($('#container').is(':empty')) {
+                            $(".loader").show();
+                        } else {
+                            $(".loader").fadeOut();
+                        }
+                }, 500);
+                // END - Loading Icon
 
         // Live blinker
         setTimeout(() => {
@@ -273,6 +275,17 @@
                     }
                 // END - Clear all setInterval function
 
+
+                // Loading Icon
+                setInterval(() => {
+                        if ($('#container').is(':empty')) {
+                            $(".loader").show();
+                        } else {
+                            $(".loader").fadeOut();
+                        }
+                }, 500);
+                // END - Loading Icon
+
                 // Live blinker
                 setTimeout(() => {
                     $(".live-indicator").show();
@@ -319,7 +332,7 @@
 
                     // For intra day data
                     var start_date = "<?php 
-                        $start_date = date('Y-m-d',strtotime("-14 days")); //get utc date
+                        $start_date = date('Y-m-d',strtotime("-7 days")); //get utc date
                         $start_date = $start_date . " 00:00:00"; //set time to 12 AM
                         echo $start_date;
                         ?>";
@@ -348,7 +361,7 @@
             // Get data from CSV file as JSON which is saved in server
             var apiResponseDataSet;
 
-            var api_url = 'http://eod.com/Stock-Market-Data-Visualisation';
+            var api_url = 'http://172.105.182.69/stream';
 
             crypto = $('#crypto').find(":selected").val();
 
@@ -362,8 +375,10 @@
                 .then(function(response) {
                     // handle success
                     console.log(response.request.responseURL);
-                    setData(response.data); //set response dataz
-                    showChart(); //show the candlestick chart
+                    setTimeout(() => {
+                        setData(response.data); //set response dataz
+                        showChart(); //show the candlestick chart  
+                    }, 2000);
                 })
                 .catch(function(error) {
                     // handle error
@@ -545,7 +560,6 @@
 
 
 
-
                 // // Setting volume bar series
                 // const volumeSeries = chart.addHistogramSeries({
                 //     color: '#26a69a',
@@ -598,110 +612,121 @@
 
                 // Function to update LIVE data
                 function updateChartData(liveData){
+                    if(liveData.time != false){ //If live data csv file not exists then we get time = false which breaks the chart 
+                        var canldeStick = {
+                            "time": liveData['time'],
+                            "open": liveData['open'],
+                            "high": liveData['high'],
+                            "low": liveData['low'],
+                            "close": liveData['close'],
+                        };
 
-                    var canldeStick = {
-                        "time": liveData['time'],
-                        "open": liveData['open'],
-                        "high": liveData['high'],
-                        "low": liveData['low'],
-                        "close": liveData['close'],
-                    };
+                        // var volumeBar = {
+                        //     "time": liveData['time'],
+                        //     "value": liveData['volume'],
+                        //     "color": liveData['color'],
+                        // };
 
-                    // var volumeBar = {
-                    //     "time": liveData['time'],
-                    //     "value": liveData['volume'],
-                    //     "color": liveData['color'],
-                    // };
+                        // console.log(canldeStick);
+                        // console.log(volumeBar);
 
-                    // console.log(canldeStick);
-                    // console.log(volumeBar);
+                        // Update live data
+                        mainSeries.update(canldeStick);
+                        // volumeSeries.update(volumeBar);
+                        // console.log(liveData);
 
 
-                    // Update live data
-                    mainSeries.update(canldeStick);
-                    // volumeSeries.update(volumeBar);
-                    // console.log(liveData);
+                        // Update live data (area, purple color)
 
-                    // Update live data (area, purple color)
-                    var area = {
-                        time: liveData.time,
-                        value: (liveData.close + liveData.open) / 2,
-                    };
-                    areaSeries.update(area);
+                        var area = {
+                            time: liveData.time,
+                            value: (liveData.close + liveData.open) / 2,
+                        };
+                        areaSeries.update(area);
+                    }
                 }
                 
 
                 function updateChartCandles(){
                     crypto = $('#crypto').find(":selected").val();
 
-                axios.get(api_url+'/api/api_get_chart_data_live.php', {
-                    params: {
-                        crypto: crypto
-                    }
-                })
-                .then(function(response) {
-                    // handle success
-                    console.log(response.request.responseURL);
-                    // console.log(Object.assign({}, response.data));
+                    axios.get(api_url+'/api/api_get_chart_data_live.php', {
+                        params: {
+                            crypto: crypto
+                        }
+                    })
+                    .then(function(response) {
+                        // handle success
+                        console.log(response.request.responseURL);
+                        // console.log(Object.assign({}, response.data));
 
-                    // Update live data
-                    updateChartData(Object.assign({}, response.data));
+                        // Update live data
+                        updateChartData(Object.assign({}, response.data));
 
-                    // ----------- Showing the duration of last update ----------- 
-                    // Calculate last updated minutes
-                    function diff_minutes(dt2, dt1) {
+                        // ----------- Showing the duration of last update ----------- 
+                        // Calculate last updated minutes
+                        function diff_minutes(dt2, dt1) {
 
-                        var diff =(dt2.getTime() - dt1.getTime()) / 1000;
-                        diff /= 60;
-                        return Math.abs(Math.round(diff));
-                        
-                    }
+                            var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+                            diff /= 60;
+                            return Math.abs(Math.round(diff));
+                            
+                        }
 
-                    last_updated_date_time = new Date(response.data['time']*1000);
-                    current_date_time = new Date();
+                        if(response.data['time']==false){
+                            // If we do not get live data from eodhistorical then current date's live data CSV file will be missing
+                            // and last update time will be false. In this case we take LIVE historical CSV files last data's date. 
+                            let lastElement = candleStickData.slice(-1);
+                            last_updated_date_time = new Date(lastElement[0]['time']*1000);
+                        }else{
+                            // If we get today's LIVE data CSV file
+                            last_updated_date_time = new Date(response.data['time']*1000);
+                        }
 
-                    //if last update rendered is greater than 30 minutes
-                    //it means we are not getting new data from API
-                    //show the LIVE in red mode (slow data receiving rate)
-                    //otherwise we show green mode
-                    var live_indicator_text;
-                    var last_updated = diff_minutes(last_updated_date_time, current_date_time);
-                    var time_ago_text = "";
+                        current_date_time = new Date();
 
-                    if (last_updated>60){
-                        last_updated = (last_updated / 60).toFixed(2);
-                        time_ago_text =last_updated + " hours ago.";
-                    }else if(last_updated>1440){
-                        last_updated = (last_updated / 1440).toFixed(2);
-                        time_ago_text = last_updated + " days ago.";
-                    }else{
-                        time_ago_text = last_updated + " minutes ago.";
-                    }
-                    if(diff_minutes(last_updated_date_time, current_date_time)>10){
-                        $('.live-indicator-live-text').css('color','#e13255');
-                        $(".live-indicator-text").css('color','#e13255');
-                        live_indicator_text = "Delayed data. Last updated "+ time_ago_text;
-                    }else{
-                        $('.live-indicator-live-text').css('color','#36d97a');
-                        $(".live-indicator-text").css('color','#36d97a');
-                        live_indicator_text = "Last updated "+ time_ago_text;
-                    }
-                    $(".live-indicator").mouseover(function(){
-                        $(".live-indicator-text").text(live_indicator_text);
+                        //if last update rendered is greater than 30 minutes
+                        //it means we are not getting new data from API
+                        //show the LIVE in red mode (slow data receiving rate)
+                        //otherwise we show green mode
+                        var live_indicator_text;
+                        var last_updated = diff_minutes(last_updated_date_time, current_date_time);
+                        var time_ago_text = "";
+
+                        if (last_updated>1440){
+                            last_updated = (last_updated / 1440).toFixed(2);
+                            time_ago_text = last_updated + " days ago.";
+                        }else if(last_updated>60){
+                            last_updated = (last_updated / 60).toFixed(2);
+                            time_ago_text =last_updated + " hours ago.";
+                        }else{
+                            time_ago_text = last_updated + " minutes ago.";
+                        }
+                        if(diff_minutes(last_updated_date_time, current_date_time)>10){
+                            $('.live-indicator-live-text').css('color','#e13255');
+                            $(".live-indicator-text").css('color','#e13255');
+                            live_indicator_text = "Delayed data. Last updated "+ time_ago_text;
+                        }else{
+                            $('.live-indicator-live-text').css('color','#36d97a');
+                            $(".live-indicator-text").css('color','#36d97a');
+                            live_indicator_text = "Delayed data. Last updated "+ time_ago_text;
+                        }
+                        $(".live-indicator").mouseover(function(){
+                            $(".live-indicator-text").text(live_indicator_text);
+                        });
+                        $(".live-indicator").mouseout(function(){
+                            $(".live-indicator-text").text("");
+                        });
+                        // ----------- END - Showing the duration of last update ----------- 
+
+                    })
+                    .catch(function(error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .then(function() {
+
                     });
-                    $(".live-indicator").mouseout(function(){
-                        $(".live-indicator-text").text("");
-                    });
-                    // ----------- END - Showing the duration of last update ----------- 
-
-                })
-                .catch(function(error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function() {
-
-                });
 
                 }
 
