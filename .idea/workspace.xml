@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a13629a8-c911-4810-9f34-f4225ed1d7d8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cron.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbconnect/dbconnect.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploader/csv_to_mysql.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_get_chart_data.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_get_chart_data_live.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_get_chart_data_live.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_data.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_data.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_live_data.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_live_data.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/BCOMCO.INDX/BCOMCO.INDX-data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/BCOMGC.INDX/BCOMGC.INDX-data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-live-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-live-data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/SP500NTR.INDX/SP500NTR.INDX-data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/US2Y.INDX/US2Y.INDX-data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/1d/BTC-USD.CC/BTC-USD.CC-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/1d/BTC-USD.CC/BTC-USD.CC-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/1d/GSPC.INDX/GSPC.INDX-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/1d/GSPC.INDX/GSPC.INDX-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/1m/BTC-USD.CC/BTC-USD.CC-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/1m/BTC-USD.CC/BTC-USD.CC-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/1m/GSPC.INDX/GSPC.INDX-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/1m/GSPC.INDX/GSPC.INDX-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/1w/BTC-USD.CC/BTC-USD.CC-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/1w/BTC-USD.CC/BTC-USD.CC-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/1w/GSPC.INDX/GSPC.INDX-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/1w/GSPC.INDX/GSPC.INDX-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/upload/csv_to_mysql.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +97,10 @@
       <workItem from="1677726241156" duration="16096000" />
       <workItem from="1678602844379" duration="597000" />
       <workItem from="1680422804512" duration="39000" />
+      <workItem from="1680720455725" duration="31000" />
+      <workItem from="1680720488704" duration="10000" />
+      <workItem from="1680720503976" duration="125000" />
+      <workItem from="1680720638679" duration="4000" />
     </task>
     <servers />
   </component>
@@ -115,6 +117,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

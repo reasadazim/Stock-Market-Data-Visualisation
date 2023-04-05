@@ -2,7 +2,7 @@
 
 // Following code reads CSV file from data directory and store it into MySQL Database
 
-  include('../dbconnect/dbconnect.php'); //database connector
+  include('../dbconnect/credentials.php'); //database connector
 
   try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -13,7 +13,7 @@
     // set the resulting array to associative
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     foreach((new RecursiveArrayIterator($stmt->fetchAll())) as $k => $v) {
-      if($v['feed'] == 1){
+      if($v['feed'] == 1){//if getting data from eodhistorical is set to active only then read CSV and upload to database
         readcsvfile($v['teid'],$v['ref']);
       }
     }
@@ -94,7 +94,7 @@
 
                 $tableName = 'd' . $duration;
                 
-                include('../dbconnect/dbconnect.php');  //database connector
+                include('../dbconnect/credentials.php');  //database connector
 
                 try {
                   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

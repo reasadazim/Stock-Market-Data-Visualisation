@@ -2,12 +2,20 @@ import pandas as pd
 import os
 
 # ********* Reads 1 month CSV Resample data to 3 months and store it in data directory for frontend chart **************
+
 # Get the list of all files and directories
-tickers = ['AAPL.US', 'MSFT.US', 'TSLA.US', 'EURUSD.FOREX', 'ETH-USD.CC', 'BTC-USD.CC', 'GSPC.INDX', 'IXIC.INDX',
-           'FTSE.INDX', 'DJI.INDX', 'NDX.INDX']
+# Open the text file for reading
+with open("../data/active_tickers.txt", "r") as file:
+    # Read the contents of the file into a list
+    contents = file.readlines()
+
+# Create an array from the list of file contents
+tickers = []
+for line in contents:
+    tickers.append(line.strip())
 
 for ticker in tickers:
-    path = "../data/m/" + ticker + "/"
+    path = "../data/1m/" + ticker + "/"
     dir_list = os.listdir(path)
 
     for file_name in dir_list:
@@ -26,6 +34,12 @@ for ticker in tickers:
                                                  'Adjusted_close': 'last',
                                                  'Volume': 'sum',
                                                  })
+        
+        # Check the directory exists
+        if not os.path.exists('../data/12m/' + ticker):
+            # if the demo_folder directory is not present 
+            # then create it.
+            os.makedirs('../data/12m/' + ticker)
 
         # Write data in csv file inside data directory
         data.to_csv('../data/12m/' + ticker + "/" + file_name, mode='w', header=True)
