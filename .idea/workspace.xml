@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a13629a8-c911-4810-9f34-f4225ed1d7d8" name="Changes" comment="" />
+    <list default="true" id="a13629a8-c911-4810-9f34-f4225ed1d7d8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/api_get_chart_data.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/api_get_chart_data_live.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_get_chart_data_live.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_data.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_data.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_live_data.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_get_eodhistoricaldata_live_data.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/BCOMCO.INDX/BCOMCO.INDX-data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/BCOMGC.INDX/BCOMGC.INDX-data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-live-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/NDX.INDX/NDX.INDX-live-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/SP500NTR.INDX/SP500NTR.INDX-data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/US2Y.INDX/US2Y.INDX-data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +59,30 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -58,6 +97,8 @@
       <workItem from="1677640388535" duration="495000" />
       <workItem from="1677640897451" duration="11376000" />
       <workItem from="1677726241156" duration="16096000" />
+      <workItem from="1678602844379" duration="597000" />
+      <workItem from="1680422804512" duration="39000" />
     </task>
     <servers />
   </component>
@@ -77,5 +118,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
