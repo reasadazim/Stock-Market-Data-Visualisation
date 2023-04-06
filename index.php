@@ -134,17 +134,6 @@
 
     <div class="select-options">
         <select name="crypto" id="crypto">
-            <option value="AAPL.US" selcted>AAPL</option>
-            <option value="MSFT.US">MSFT</option>
-            <option value="TSLA.US">TSLA</option>
-            <option value="EURUSD.FOREX">EURUSD</option>
-            <option value="BTC-USD.CC">BTC-USD</option>
-            <option value="ETH-USD.CC">ETH-USD</option>
-            <option value="GSPC.INDX">SPX</option>
-            <option value="IXIC.INDX">IXIC</option>
-            <option value="FTSE.INDX">FTSE</option>
-            <option value="DJI.INDX">DJI</option>
-            <option value="NDX.INDX">NDX</option>
         </select>
         <select name="duration" id="duration">
             <option value="1d" selected>1 day</option>
@@ -178,6 +167,37 @@
     <div id="container" style="position: absolute; width: 100%; height: 100%"></div>
 
 <script type="text/javascript">
+
+var api_url = "http://eod.com/Stock-Market-Data-Visualisation";
+
+
+// Load tickers
+
+var tickers;
+
+axios
+  .get(api_url + "/api/tickers.php")
+  .then(function (response) {
+    // handle success
+    tickers = response.data;
+    // Set ticker
+    var options = $('#crypto',)
+    for (var i = 0; i < tickers.length; i++) {
+      $('<option>', {
+        value: tickers[i].ticker_code,
+        text: tickers[i].ticker,
+      }).appendTo(options);
+    }
+    $("#crypto option:first").attr('selected','selected');
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {});
+
+// END - Load tickers
+
 // Loading Icon
 setInterval(() => {
   if ($("#container").is(":empty")) {
@@ -274,8 +294,6 @@ $(document).ready(function () {
 function loadChart(crypto, duration) {
   // Get data from CSV file as JSON which is saved in server
   var apiResponseDataSet;
-
-  var api_url = "http://eod.com/Stock-Market-Data-Visualisation";
 
   axios
     .get(api_url + "/api/api_get_chart_data.php", {

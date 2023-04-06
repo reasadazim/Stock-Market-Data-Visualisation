@@ -4,6 +4,7 @@
 
   include('../dbconnect/credentials.php'); //database connector
 
+  // Get the list of tickers (feed=1) and read files then insert into MySQL database
   try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -14,7 +15,7 @@
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     foreach((new RecursiveArrayIterator($stmt->fetchAll())) as $k => $v) {
       if($v['feed'] == 1){//if getting data from eodhistorical is set to active only then read CSV and upload to database
-        readcsvfile($v['teid'],$v['ref']);
+        read_csv_file_and_upload_to_database($v['teid'],$v['ref']);
       }
     }
   } catch(PDOException $e) {
@@ -47,18 +48,17 @@
   // END - php function to convert csv to json format
 
 
-  function readcsvfile($ticker_id, $tickercode){
+  function read_csv_file_and_upload_to_database($ticker_id, $tickercode){
     // Setting timezone to UTC, Otherwise eodhistoricaldata.com does not provide data
     date_default_timezone_set('UTC');
 
-    // Get query parameters
     $crypto = $tickercode;
 
     $durations = ["1d", "1m", "1w", "3m", "6m", "12m"];
     
     foreach ($durations as $duration){
 
-    // ************* Get data from CSV file and output as json *************
+    // ************* Get data from CSV file and upload to MySQL database *************
 
     $local_csv_file_name = "../data/".$duration."/".$crypto."/".$crypto."-data.csv"; 
     
@@ -86,7 +86,7 @@
                 }
 
 
-                $uid = md5($datum['Date']."-".$ticker_id);
+                $uid = md5($datum['Date']."-".$ticker_id); // Unique key: md5(date+ticker_id) (2021-06-09-1 = 0001cf489c77d159b76cbb5599838ce5)
                 $date = $datum['Date'];
                 $o = (float)$datum['Open'];
                 $h = (float)$datum['High'];
@@ -96,7 +96,7 @@
                 $tableName = 'd' . $duration;
                 
                 include('../dbconnect/credentials.php');  //database connector
-
+                // insert data into MySQL database, update existing data on re-import data
                 try {
                   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                   // set the PDO error mode to exception
@@ -106,7 +106,6 @@
                   ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
                   // use exec() because no results are returned
                   $conn->exec($sql);
-                  echo "New record created successfully".PHP_EOL;
                 } catch(PDOException $e) {
                   echo $sql . "<br>" . $e->getMessage();
                 }
@@ -117,10 +116,15 @@
 
     }
     
-    // ************* END - Get data from file and output as json *************
+    // ************* END - Get data from CSV file and upload to MySQL database *************
 
     }
 
   }
+
+// Output
+header('Content-Type: application/json; charset=utf-8');
+
+echo("Success!");
 
 ?>

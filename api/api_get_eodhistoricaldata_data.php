@@ -21,10 +21,10 @@ try {
       }
     }
 
-    // Store the ticker list text file (for python)
+    // Store the ticker list text file (for python to resample only the newly imported data and do not resample again the existing data)
     $file = fopen('../data/active_tickers.txt', "w+");
     foreach ($ticker_list as $ticker){
-        fputs($file, $ticker.PHP_EOL); // add new line after each ticker
+        fputs($file, $ticker.PHP_EOL);
     }
     fclose($file);
 
@@ -40,7 +40,7 @@ date_default_timezone_set('UTC');
 
 $crypto = $tickercode;
 
-$durations = ["d", "m", "w"];
+$durations = ["d", "m", "w"]; // eodhistoricaldata.com does not provide 3month, 6month and 1 year data. We have to resample it using python.
 
     foreach ($durations as $duration){
 
