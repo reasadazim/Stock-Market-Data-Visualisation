@@ -22,30 +22,29 @@
   }
 
 
-
-    // php function to convert csv to json format
-      function csvToJson($fname) {
-        // open csv file
-        if (!($fp = fopen($fname, 'r'))) {
-            die("Can't open file...");
-        }
-        
-        //read csv headers
-        $key = fgetcsv($fp,"1024",",");
-        
-        // parse csv rows into array
-        $json = array();
-            while ($row = fgetcsv($fp,"1024",",")) {
-            $json[] = array_combine($key, $row);
-        }
-        
-        // release file handle
-        fclose($fp);
-        
-        // encode array to json
-        return $json;
+  // php function to convert csv to json format
+    function csvToJson($fname) {
+      // open csv file
+      if (!($fp = fopen($fname, 'r'))) {
+          die("Can't open file...");
       }
-    // END - php function to convert csv to json format
+      
+      //read csv headers
+      $key = fgetcsv($fp,"1024",",");
+      
+      // parse csv rows into array
+      $json = array();
+          while ($row = fgetcsv($fp,"1024",",")) {
+          $json[] = array_combine($key, $row);
+      }
+      
+      // release file handle
+      fclose($fp);
+      
+      // encode array to json
+      return $json;
+    }
+  // END - php function to convert csv to json format
 
 
   function readcsvfile($ticker_id, $tickercode){
@@ -86,7 +85,9 @@
                     $color = "#e13255ab";
                 }
 
-                $date = (int)(strtotime($datum['Date']));
+
+                $uid = md5($datum['Date']."-".$ticker_id);
+                $date = $datum['Date'];
                 $o = (float)$datum['Open'];
                 $h = (float)$datum['High'];
                 $l = (float)$datum['Low'];
@@ -100,12 +101,12 @@
                   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                   // set the PDO error mode to exception
                   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                  $sql = "INSERT INTO `$tableName` (`$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`)
-                  VALUES ($date, $ticker_id, $o, $h, $l, $c, $volume)
-                  ON DUPLICATE KEY UPDATE `$tableName` = $date, `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
+                  $sql = "INSERT INTO `$tableName` (`uid`, `$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`)
+                  VALUES ('$uid', '$date', $ticker_id, $o, $h, $l, $c, $volume)
+                  ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
                   // use exec() because no results are returned
                   $conn->exec($sql);
-                  echo "New record created successfully";
+                  echo "New record created successfully".PHP_EOL;
                 } catch(PDOException $e) {
                   echo $sql . "<br>" . $e->getMessage();
                 }

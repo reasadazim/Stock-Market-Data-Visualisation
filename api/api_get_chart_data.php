@@ -1,6 +1,6 @@
 <?php
    
-// Folloing code reads the a CSV file and outputs JSON data to make candlestick chart
+// Folloing code reads data from MySQL database and outputs JSON data to make candlestick chart
 
 // Setting timezone to UTC, Otherwise eodhistoricaldata.com does not provide data
 date_default_timezone_set('UTC');
@@ -8,81 +8,86 @@ date_default_timezone_set('UTC');
 // Get query parameters
 $crypto = $_GET["crypto"];
 $duration = $_GET["duration"];
- 
-// php function to convert csv to json format
-function csvToJson($fname) {
-    // open csv file
-    if (!($fp = fopen($fname, 'r'))) {
-        die("Can't open file...");
+
+
+function readData($crypto, $duration) {
+    
+    $table_name = "d".$_GET["duration"]; //setting table name
+
+    $column_name = "d".$_GET["duration"]; //setting column name
+
+    include('../dbconnect/credentials.php');
+
+    // Get ticker ID from 'te' table
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT * FROM te WHERE `ref` = '$crypto'");
+        $stmt->execute();
+      
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        foreach((new RecursiveArrayIterator($stmt->fetchAll())) as $k => $v) {
+            $ticker_id = $v['teid'];
+        }
+    } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-    
-    //read csv headers
-    $key = fgetcsv($fp,"1024",",");
-    
-    // parse csv rows into array
-    $json = array();
-        while ($row = fgetcsv($fp,"1024",",")) {
-        $json[] = array_combine($key, $row);
-    }
-    
-    // release file handle
-    fclose($fp);
-    
-    // encode array to json
-    return $json;
-}
 
-// END - php function to convert csv to json format
 
-// ************* Get data from CSV file and output as json *************
+    // Get candlestick data
+     
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT * FROM `$table_name` WHERE `teid` = '$ticker_id' ORDER BY $column_name");
+        $stmt->execute();
+      
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-    $local_csv_file_name = "../data/".$duration."/".$crypto."/".$crypto."-data.csv"; 
+        foreach((new RecursiveArrayIterator($stmt->fetchAll())) as $k => $v) {
+            if( (float)$v['o'] != 0 ){
 
-    if(file_exists($local_csv_file_name)){
-
-        $data = csvToJson($local_csv_file_name);
-
-        foreach($data as $datum){
-        
-            if( (float)$datum['Open'] != 0 ){
-
-                if(is_null($datum['Volume'])){
+                if(is_null($v['v'])){
                     // If volume is empty
                     $volume = 0;
                 }else{
-                    $volume = $datum['Volume'];
+                    $volume = $v['v'];
                 }
-
+        
                 // Determine volume bar color
                 // if the closing price is greater than the open price then GREEN else RED
-                if ( ((float)$datum['Close']) > ((float)$datum['Open']) ){
+                if ( ((float)$v['c']) > ((float)$v['o']) ){
                     $color = "#36d97aa6";
                 }else{
                     $color = "#e13255ab";
                 }
-
-            
+        
                 $filtered_data[] = array(
-                    'time' => (int)(strtotime($datum['Date'])),
-                    'open' => (float)$datum['Open'],
-                    'high' => (float)$datum['High'],
-                    'low' => (float)$datum['Low'],
-                    'close' => (float)$datum['Close'],
+                    'time' => (int)(strtotime($v[$column_name])),
+                    'open' => (float)$v['o'],
+                    'high' => (float)$v['h'],
+                    'low' => (float)$v['l'],
+                    'close' => (float)$v['c'],
                     'volume' => $volume,
                     'color' => $color,
                 );
             }
-        
         }
 
-    }
-    
-// ************* END - Get data from file and output as json *************
+        return $filtered_data;
+
+      } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
+      }
+}
+
 
 
 // Output
 header('Content-Type: application/json; charset=utf-8');
 
-echo(json_encode($filtered_data));
+echo(json_encode(readData($crypto, $duration)));
 
 ?>
