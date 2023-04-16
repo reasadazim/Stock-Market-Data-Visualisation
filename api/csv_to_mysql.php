@@ -103,7 +103,8 @@
                   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                   $sql = "INSERT INTO `$tableName` (`uid`, `$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`)
                   VALUES ('$uid', '$date', $ticker_id, $o, $h, $l, $c, $volume)
-                  ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
+                  ON DUPLICATE KEY UPDATE `uid` = '$uid'"; //on duplicate do not do anything
+                  // ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
                   // use exec() because no results are returned
                   $conn->exec($sql);
                 } catch(PDOException $e) {
