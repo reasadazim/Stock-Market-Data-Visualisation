@@ -209,17 +209,20 @@ setInterval(() => {
 // END - Loading Icon
 
 $(document).ready(function () {
-  // Show the crypto value on indicator
-  $(".tickname").text($("#crypto").find(":selected").text());
-  $(".duration").text($("#duration").find(":selected").text());
 
-  var crypto = $("#crypto").find(":selected").val();
-  var duration = $("#duration").find(":selected").val();
+  setTimeout(() => {
+    // Show the crypto value on indicator
+    $(".tickname").text($("#crypto").find(":selected").text());
+    $(".duration").text($("#duration").find(":selected").text());
 
-  $("#container").empty();
+    var crypto = $("#crypto").find(":selected").val();
+    var duration = $("#duration").find(":selected").val();
 
-  // Load Data from csv file and show chart
-  loadChart(crypto, duration);
+    $("#container").empty();
+
+    // Load Data from csv file and show chart
+    loadChart(crypto, duration);
+  }, 500);
 
   $("#duration").change(function () {
     // Show the crypto value on indicator
@@ -276,6 +279,7 @@ $(document).ready(function () {
     }, 500);
     // END - Loading Icon
 
+
     // Show the crypto value on indicator
     $(".tickname").text($("#crypto").find(":selected").text());
     $(".duration").text($("#duration").find(":selected").text());
@@ -287,6 +291,7 @@ $(document).ready(function () {
 
     // Load Data from csv file and show chart
     loadChart(crypto, duration);
+
   });
 });
 

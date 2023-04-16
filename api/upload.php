@@ -70,7 +70,11 @@ if (isset($_POST['submit'])){
                 }
                 
                 $uid = md5($getData[0]."-".$ticker_id); // Unique key: md5(date+ticker_id) (2021-06-09-1 = 0001cf489c77d159b76cbb5599838ce5)
-                $date = $getData[0];
+                
+                $time = strtotime($getData[0]);
+
+                $date = date('Y-m-d',$time);
+                
                 $o = (float)$getData[1];
                 $h = (float)$getData[2];
                 $l = (float)$getData[3];
