@@ -69,34 +69,33 @@ if (isset($_POST['submit'])){
                     $volume = $getData[6];
                 }
                 
-                $uid = md5($getData[0]."-".$ticker_id); // Unique key: md5(date+ticker_id) (2021-06-09-1 = 0001cf489c77d159b76cbb5599838ce5)
                 
                 $time = strtotime($getData[0]);
 
                 $date = date('Y-m-d',$time);
+
+                $uid = md5($date."-".$ticker_id); // Unique key: md5(date+ticker_id) (2021-06-09-1 = 0001cf489c77d159b76cbb5599838ce5)
                 
                 $o = (float)$getData[1];
                 $h = (float)$getData[2];
                 $l = (float)$getData[3];
                 $c = (float)$getData[4];
                 
-                // Uncomment if upload P1, P2, P3, P4 values
-                // $p1 = (float)$getData[7];
-                // $p2 = (float)$getData[8];
-                // $p3 = (float)$getData[9];
-                // $p4 = (float)$getData[10];
+
+                $p1 = (float)$getData[7];
+                $p2 = (float)$getData[8];
+                $p3 = (float)$getData[9];
+                $p4 = (float)$getData[10];
 
                 $tableName = 'd' . $duration;
                 
-                // Comment following query if upload P1, P2, P3, P4 values
-                $sql = "INSERT INTO `$tableName` (`uid`, `$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`)
-                VALUES ('$uid', '$date', $ticker_id, $o, $h, $l, $c, $volume)
-                ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
-                
-                // Uncomment if upload P1, P2, P3, P4 values
-                // $sql = "INSERT INTO `$tableName` (`uid`, `$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`, `p1`, `p2`, `p3`, `p4`)
+                // $sql = "INSERT INTO `$tableName` (`uid`, `$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`)
                 // VALUES ('$uid', '$date', $ticker_id, $o, $h, $l, $c, $volume)
-                // ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume, `p1` = $p1, `p2` = $p2, `p3` = $p3, `p4` = $p4";
+                // ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume";
+                
+                $sql = "INSERT INTO `$tableName` (`uid`, `$tableName`, `teid`, `o`, `h`, `l`, `c`, `v`, `p1`, `p2`, `p3`, `p4`)
+                VALUES ('$uid', '$date', $ticker_id, $o, $h, $l, $c, $volume, $p1, $p2, $p3, $p4)
+                ON DUPLICATE KEY UPDATE `uid` = '$uid', `$tableName` = '$date', `teid` = $ticker_id, `o` = $o, `h` = $h, `l` = $l, `c` = $c, `v` = $volume, `p1` = $p1, `p2` = $p2, `p3` = $p3, `p4` = $p4";
 
                 
                 // use exec() because no results are returned

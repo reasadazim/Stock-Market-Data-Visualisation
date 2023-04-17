@@ -86,6 +86,7 @@
                 }
 
 
+
                 $uid = md5($datum['Date']."-".$ticker_id); // Unique key: md5(date+ticker_id) (2021-06-09-1 = 0001cf489c77d159b76cbb5599838ce5)
                 $date = $datum['Date'];
                 $o = (float)$datum['Open'];
